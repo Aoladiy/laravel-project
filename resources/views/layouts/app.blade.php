@@ -32,7 +32,7 @@
                     @show
                 </div>
                 <div>
-                    @include('components.panels.user_not_authorized_menu')
+                    <x-panels.user_not_authorized_menu/>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
                         </svg>
                     </button>
                 </form>
-                @include('components.panels.category_menu')
+                <x-panels.category_menu/>
             </div>
         </div>
     </header>
@@ -62,7 +62,7 @@
     <footer class="container mx-auto">
         <section class="block sm:flex bg-white p-4">
             <div class="flex-1">
-                @include('components.panels.salons')
+                <x-panels.salons/>
             </div>
             <div class="mt-8 border-t sm:border-t-0 sm:mt-0 sm:border-l py-2 sm:pl-4 sm:pr-8">
                 <p class="text-3xl text-black font-bold mb-4">Информация</p>
@@ -84,7 +84,7 @@
         </section>
 
 
-        @include('components.panels.copyrights')
+        <x-panels.copyrights/>
     </footer>
 </div>
 </body>
