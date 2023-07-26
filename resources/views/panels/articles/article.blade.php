@@ -5,8 +5,9 @@
                                                             class="inline-block pl-1 text-gray-200 hover:text-orange"><b>Все</b></a></span>
     </div>
     <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-6">
+        @props(['articles'])
         @foreach($articles as $article)
-            @include('components.panels.news.news_item', ['article', $article])
+            @include('panels.articles.article_item', ['article', $article])
         @endforeach
     </div>
 </section>

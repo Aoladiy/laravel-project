@@ -2,5 +2,5 @@
 @section('page-title', 'Условия продаж')
 @section('title', 'Условия продаж')
 @section('content')
-    <x-panels.static_demo_content/>
+    @include('panels.static_demo_content')
 @endsection

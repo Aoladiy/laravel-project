@@ -99,7 +99,7 @@
             </div>
         </div>
     </section>
-    @include('components.panels.news.news', ['articles' => $articles])
+    @include('panels.articles.article', ['articles' => $articles])
 @endsection
 @push('scripts')
     <link href="/assets/css/main_page_template_styles.css" rel="stylesheet">
