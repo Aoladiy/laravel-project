@@ -32,7 +32,7 @@
                     @show
                 </div>
                 <div>
-                    @include('panels.user_not_authorized_menu')
+                    @yield('user-menu')
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
                         </svg>
                     </button>
                 </form>
-                @include('panels.category_menu')
+                @yield('nav-menu')
             </div>
         </div>
     </header>
@@ -60,17 +60,7 @@
         @yield('template-content')
     </main>
     <footer class="container mx-auto">
-        <section class="block sm:flex bg-white p-4">
-            <div class="flex-1">
-                @include('panels.salons')
-            </div>
-            <div class="mt-8 border-t sm:border-t-0 sm:mt-0 sm:border-l py-2 sm:pl-4 sm:pr-8">
-                <p class="text-3xl text-black font-bold mb-4">Информация</p>
-                @include('panels.footer_information_menu')
-            </div>
-        </section>
-
-
+        @yield('footer-info')
         @include('panels.copyrights')
     </footer>
 </div>
