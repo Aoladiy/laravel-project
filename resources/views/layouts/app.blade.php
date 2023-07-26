@@ -25,7 +25,7 @@
                 class="container mx-auto block sm:flex sm:justify-between sm:items-center py-4 px-4 sm:px-0 space-y-4 sm:space-y-0">
                 <div class="flex justify-center">
                     @section('header-logo')
-                        <a href="/" class="inline-block sm:inline hover:opacity-75">
+                        <a href="{{ route('home') }}" class="inline-block sm:inline hover:opacity-75">
                             <img src="/assets/images/logo.png" width="222"
                                  height="30" alt="">
                         </a>
@@ -66,20 +66,7 @@
             </div>
             <div class="mt-8 border-t sm:border-t-0 sm:mt-0 sm:border-l py-2 sm:pl-4 sm:pr-8">
                 <p class="text-3xl text-black font-bold mb-4">Информация</p>
-                <nav>
-                    <ul class="bullet-list-item">
-                        <li><a class="text-gray-600 hover:text-orange"
-                               href="../../../../../Desktop/grade_layout/inner.html">О компании</a></li>
-                        <li><a class="text-orange cursor-default" href="../../../../../Desktop/grade_layout/inner.html">Контактная
-                                информация</a></li>
-                        <li><a class="text-gray-600 hover:text-orange"
-                               href="../../../../../Desktop/grade_layout/inner.html">Условия продаж</a></li>
-                        <li><a class="text-gray-600 hover:text-orange"
-                               href="../../../../../Desktop/grade_layout/inner.html">Финансовый отдел</a></li>
-                        <li><a class="text-gray-600 hover:text-orange"
-                               href="../../../../../Desktop/grade_layout/inner.html">Для клиентов</a></li>
-                    </ul>
-                </nav>
+                <x-panels.footer_information_menu/>
             </div>
         </section>
 
