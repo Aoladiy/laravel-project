@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [PagesController::class, 'home']);
+Route::get('/test', function () {
+    return view('layouts.inner');
 });
+Route::get('/catalog', [CatalogController::class, 'catalog']);
+Route::get('/catalog/{product}', [CatalogController::class, 'product']);
