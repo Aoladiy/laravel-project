@@ -12,7 +12,7 @@
         </div>
 
         <p>{{$article->description}}</p>
-        <p>{{$article->body}}</p>
+        <div>{!! $article->body !!}</div>
     </div>
 
     <div class="mt-4">
