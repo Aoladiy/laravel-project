@@ -2,5 +2,5 @@
 @section('page-title', 'Финансовый отдел')
 @section('title', 'Финансовый отдел')
 @section('content')
-    <x-panels.static_demo_content/>
+    @include('panels.static_demo_content')
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -9,7 +10,8 @@ class PagesController extends Controller
 {
     public function home(): View
     {
-        return view('pages.homepage');
+        $articles = Article::limit(3)->latest('published_at')->get();
+        return view('pages.homepage', ['articles' => $articles]);
     }
     public function about(): View
     {
