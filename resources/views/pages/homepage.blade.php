@@ -1,5 +1,14 @@
 @extends('layouts.app')
 @section('page-title', 'Главная страница')
+@section('user-menu')
+    @include('panels.user_not_authorized_menu')
+@endsection
+@section('nav-menu')
+    @include('panels.category_menu')
+@endsection
+@section('footer-info')
+    @include('panels.footer_information')
+@endsection
 @section('template-content')
     <section class="slider">
         <div data-slick-carousel>
