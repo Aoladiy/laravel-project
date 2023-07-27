@@ -23,6 +23,7 @@ Route::get('/sale', [PagesController::class, 'sale'])->name('sale');
 Route::get('/finance', [PagesController::class, 'finance'])->name('finance');
 Route::get('/clients', [PagesController::class, 'clients'])->name('clients');
 Route::get('/articles', [PagesController::class, 'articles'])->name('articles');
+Route::get('/articles/{article:slug}', [PagesController::class, 'article'])->name('article');
 Route::get('/catalog', [CatalogController::class, 'catalog'])->name('catalog');
 Route::get('/catalog/{product}', [CatalogController::class, 'product'])->name('product');
 Route::get('/admin', [AdminController::class, 'admin'])->name('admin');
