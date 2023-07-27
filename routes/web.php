@@ -28,3 +28,5 @@ Route::get('/catalog', [CatalogController::class, 'catalog'])->name('catalog');
 Route::get('/catalog/{product}', [CatalogController::class, 'product'])->name('product');
 Route::get('/admin', [AdminController::class, 'admin'])->name('admin');
 Route::get('/admin/articles', [AdminController::class, 'adminArticles'])->name('adminArticles');
+Route::get('/admin/articles/create', [AdminController::class, 'adminArticleCreate'])->name('adminArticleCreate');
+Route::post('/admin/articles/create', [AdminController::class, 'adminArticleCreateRequest'])->name('adminArticleCreateRequest');
