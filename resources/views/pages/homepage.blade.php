@@ -53,7 +53,7 @@
     @if($models)
         <section class="pb-4 px-4">
             <p class="inline-block text-3xl text-black font-bold mb-4">Модели недели</p>
-        @include('panels.cars', ['$models' => $models])
+        @include('panels.catalog.cars', ['$models' => $models])
         </section>
     @endif
     @include('panels.articles.article', ['articles' => $articles])

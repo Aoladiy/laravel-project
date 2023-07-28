@@ -2,23 +2,23 @@
 @section('page-title', 'Каталог')
 @section('title', 'Каталог')
 @section('content')
-    <form class="my-4 border rounded p-4 space-y-4">
+    <form method="get" class="my-4 border rounded p-4 space-y-4">
         <div class="block sm:flex space-y-2 sm:space-y-0 sm:space-x-4 w-full">
             <div class="flex space-x-2 items-center">
                 <label for="fieldFilterName" class="text-gray-700 font-bold">Модель:</label>
-                <input id="fieldFilterName" type="text"
+                <input id="fieldFilterName" type="text" name="name" value="{{request()->get('name')}}"
                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                        placeholder="">
             </div>
             <div class="flex space-x-2 items-center">
                 <label for="fieldFilterPriceFrom" class="text-gray-700 font-bold whitespace-nowrap">Цена от:</label>
-                <input id="fieldFilterPriceFrom" type="text"
+                <input id="fieldFilterPriceFrom" type="number" name="lowest" value="{{request()->get('lowest')}}"
                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                        placeholder="">
             </div>
             <div class="flex space-x-2 items-center">
                 <label for="fieldFilterPriceTo" class="text-gray-700 font-bold whitespace-nowrap">Цена до:</label>
-                <input id="fieldFilterPriceTo" type="text"
+                <input id="fieldFilterPriceTo" type="number" name="highest" value="{{request()->get('highest')}}"
                        class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                        placeholder="">
             </div>
@@ -31,36 +31,23 @@
                               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                 </button>
-                <button
+                <a href="{{route('catalog')}}"
                     class="inline-block bg-gray-400 hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
-                </button>
+                </a>
             </div>
         </div>
         <hr>
         <div class="flex space-x-2 items-center">
             <div class="font-bold">Сортировать по:</div>
-            <button
-                class="flex items-center text-orange underline cursor-pointer hover:no-underline hover:text-opacity-70 outline-none focus:outline-none">
-                Цене
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7l4-4m0 0l4 4m-4-4v18"/>
-                </svg>
-                <!--                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
-                <!--                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 17l-4 4m0 0l-4-4m4 4V3" />-->
-                <!--                        </svg>-->
-            </button>
-            <button
-                class="flex items-center cursor-pointer hover:text-orange hover:no-underline hover:text-opacity-70 outline-none focus:outline-none">
-                Модели
-            </button>
+            @include('panels.catalog.catalog_sort_button', ['name' => 'order_price', 'label' => 'Цене'])
+            @include('panels.catalog.catalog_sort_button', ['name' => 'order_model', 'label' => 'Модели'])
         </div>
     </form>
-    @include('panels.cars', ['$models' => $models])
+    @include('panels.catalog.cars', ['$models' => $models])
     <div class="text-center mt-4">
         @include('panels.pagination_menu')
     </div>
