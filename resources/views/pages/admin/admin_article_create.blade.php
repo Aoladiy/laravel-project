@@ -1,7 +1,11 @@
-@extends('layouts.admin')
-@section('page-title', 'Создать новость')
-@section('title', 'Создать новость')
-@section('content')
+{{--@extends('layouts.admin')--}}
+{{--@section('page-title', 'Создать новость')--}}
+{{--@section('title', 'Создать новость')--}}
+{{--@section('content')--}}
+    <x-layouts.admin
+        page-title="Создать новость"
+        title="Создать новость"
+    >
     @if (session()->has('error_message'))
         @include('panels.messages.error_message', ['message' => session('error_message', [])])
     @endif
@@ -59,4 +63,5 @@
             </div>
         </div>
     </form>
-@endsection
+{{--@endsection--}}
+    </x-layouts.admin>

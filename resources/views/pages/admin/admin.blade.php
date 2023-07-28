@@ -1,7 +1,11 @@
-@extends('layouts.admin')
-@section('page-title', 'Управление сайтом')
-@section('title', 'Управление сайтом')
-@section('content')
+{{--@extends('layouts.admin')--}}
+{{--@section('page-title', 'Управление сайтом')--}}
+{{--@section('title', 'Управление сайтом')--}}
+{{--@section('content')--}}
+<x-layouts.admin
+    page-title="Управление сайтом"
+    title="Управление сайтом"
+>
     <section class="pb-4">
         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
             <div class="bg-white w-full border border-gray-100 rounded overflow-hidden shadow-lg hover:shadow-2xl pt-4">
@@ -41,4 +45,5 @@
             </div>
         </div>
     </section>
-@endsection
+{{--@endsection--}}
+</x-layouts.admin>

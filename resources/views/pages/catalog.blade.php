@@ -1,7 +1,11 @@
-@extends('layouts.inner')
-@section('page-title', 'Каталог')
-@section('title', 'Каталог')
-@section('content')
+{{--@extends('layouts.inner')--}}
+{{--@section('page-title', 'Каталог')--}}
+{{--@section('title', 'Каталог')--}}
+{{--@section('content')--}}
+<x-layouts.inner
+    page-title="Каталог"
+    title="Каталог"
+    >
     <form method="get" class="my-4 border rounded p-4 space-y-4">
         <div class="block sm:flex space-y-2 sm:space-y-0 sm:space-x-4 w-full">
             <div class="flex space-x-2 items-center">
@@ -51,4 +55,5 @@
     <div class="text-center mt-4">
         @include('panels.pagination_menu')
     </div>
-@endsection
+{{--@endsection--}}
+</x-layouts.inner>
