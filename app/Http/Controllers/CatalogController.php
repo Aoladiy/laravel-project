@@ -14,8 +14,8 @@ class CatalogController extends Controller
         return view('pages.catalog', ['models' => $models]);
     }
 
-    public function product($product): View
+    public function product(Car $id): View
     {
-        return view('pages.product', ['product' => $product]);
+        return view('pages.product', ['product' => $id]);
     }
 }
