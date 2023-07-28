@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Car;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -11,7 +12,8 @@ class PagesController extends Controller
     public function home(): View
     {
         $articles = Article::limit(3)->latest('published_at')->get();
-        return view('pages.homepage', ['articles' => $articles]);
+        $modelsOfTheWeek = Car::limit(4)->where('is_new', '=', true)->get();
+        return view('pages.homepage', ['articles' => $articles, 'modelsOfTheWeek' => $modelsOfTheWeek]);
     }
 
     public function about(): View
