@@ -50,8 +50,11 @@
             </div>
         </div>
     </section>
-    @if($modelsOfTheWeek)
-        @include('panels.models_of_the_week', ['$modelsOfTheWeek' => $modelsOfTheWeek])
+    @if($models)
+        <section class="pb-4 px-4">
+            <p class="inline-block text-3xl text-black font-bold mb-4">Модели недели</p>
+        @include('panels.cars', ['$models' => $models])
+        </section>
     @endif
     @include('panels.articles.article', ['articles' => $articles])
 @endsection

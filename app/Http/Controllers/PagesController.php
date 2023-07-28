@@ -12,8 +12,8 @@ class PagesController extends Controller
     public function home(): View
     {
         $articles = Article::limit(3)->latest('published_at')->get();
-        $modelsOfTheWeek = Car::limit(4)->where('is_new', '=', true)->get();
-        return view('pages.homepage', ['articles' => $articles, 'modelsOfTheWeek' => $modelsOfTheWeek]);
+        $models = Car::limit(4)->where('is_new', '=', true)->get();
+        return view('pages.homepage', ['articles' => $articles, 'models' => $models]);
     }
 
     public function about(): View
