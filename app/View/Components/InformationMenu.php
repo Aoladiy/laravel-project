@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class footerInformation extends Component
+class InformationMenu extends Component
 {
     public array $menu = [
         [
@@ -44,6 +44,6 @@ class footerInformation extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.panels.footer-information.' . $this->template);
+        return view('components.panels.information-menu.' . $this->template);
     }
 }

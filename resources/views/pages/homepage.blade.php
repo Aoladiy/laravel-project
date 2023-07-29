@@ -19,7 +19,8 @@
         <x-panels.category_menu />
     </x-slot:navigationMenu>
     <x-slot:footerInfo>
-        @include('panels.footer_information')
+{{--        @include('panels.footer_information')--}}
+        <x-information-menu template="footer" />
     </x-slot:footerInfo>
     <x-slot:headerLogo>
         <span class="inline-block sm:inline">
