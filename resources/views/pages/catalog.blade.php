@@ -5,7 +5,7 @@
 <x-layouts.inner
     page-title="Каталог"
     title="Каталог"
-    >
+>
     <form method="get" class="my-4 border rounded p-4 space-y-4">
         <div class="block sm:flex space-y-2 sm:space-y-0 sm:space-x-4 w-full">
             <div class="flex space-x-2 items-center">
@@ -36,7 +36,7 @@
                     </svg>
                 </button>
                 <a href="{{route('catalog')}}"
-                    class="inline-block bg-gray-400 hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
+                   class="inline-block bg-gray-400 hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -47,13 +47,18 @@
         <hr>
         <div class="flex space-x-2 items-center">
             <div class="font-bold">Сортировать по:</div>
-            @include('panels.catalog.catalog_sort_button', ['name' => 'order_price', 'label' => 'Цене'])
-            @include('panels.catalog.catalog_sort_button', ['name' => 'order_model', 'label' => 'Модели'])
+            {{--            @include('components.catalog.sort-button', ['name' => 'order_price', 'label' => 'Цене'])--}}
+            {{--            @include('components.catalog.sort-button', ['name' => 'order_model', 'label' => 'Модели'])--}}
+            <x-catalog.sort-button name="order_price" current-value="{{request()->get('order_price') }}">Цене
+            </x-catalog.sort-button>
+            <x-catalog.sort-button name="order_model" current-value="{{request()->get('order_model') }}">Модели
+            </x-catalog.sort-button>
         </div>
     </form>
-    @include('panels.catalog.cars', ['$models' => $models])
+    {{--    @include('panels.catalog.cars', ['$models' => $models])--}}
+    <x-catalog.cars :models="$models"/>
     <div class="text-center mt-4">
-        @include('panels.pagination_menu')
+        @include('components.panels.pagination_menu')
     </div>
-{{--@endsection--}}
+    {{--@endsection--}}
 </x-layouts.inner>

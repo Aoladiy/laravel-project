@@ -2,8 +2,8 @@
 {{--@section('page-title', $product->name)--}}
 {{--@section('title', $product->name)--}}
 <x-layouts.inner
-{{--        page-title="{{ $product->name }}"--}}
-{{--        title="{{ $product->name }}"--}}
+        page-title="{{ $product->name }}"
+        title="{{ $product->name }}"
 >
     @push('scripts')
         <script>
@@ -51,10 +51,10 @@
                     <p class="font-bold">Цена:</p>
                     @isset($product->old_price)
 {{--                        <p class="text-base line-through text-gray-400">@include('components.panels.price_formatter', ['price' => $product->old_price])</p>--}}
-                        <p class="text-base line-through text-gray-400"><x-price :price="$model->old_price" /></p>
+                        <p class="text-base line-through text-gray-400"><x-price :price="$product->old_price" /></p>
                     @endisset
 {{--                    <p class="font-bold text-2xl text-orange">@include('components.panels.price_formatter', ['price' => $product->price])</p>--}}
-                    <p class="font-bold text-2xl text-orange"><x-price :price="$model->price" /></p>
+                    <p class="font-bold text-2xl text-orange"><x-price :price="$product->price" /></p>
                     <div class="mt-4 block">
                         <form>
                             <button

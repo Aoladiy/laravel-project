@@ -1,3 +1,4 @@
+@props(['articles'])
 <section class="news-block-inverse px-4 py-4">
     <div>
         <p class="inline-block text-3xl text-white font-bold mb-4">Новости</p>
@@ -5,9 +6,9 @@
                                                             class="inline-block pl-1 text-gray-200 hover:text-orange"><b>Все</b></a></span>
     </div>
     <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-6">
-        @props(['articles'])
         @foreach($articles as $article)
-            @include('panels.articles.article_item', ['article', $article])
+{{--            @include('components.panels.articles.article_item', ['article', $article])--}}
+            <x-panels.articles.article_item :article="$article" />
         @endforeach
     </div>
 </section>
