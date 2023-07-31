@@ -1,12 +1,18 @@
-@extends('layouts.admin')
-@section('page-title', 'Создать новость')
-@section('title', 'Создать новость')
-@section('content')
+{{--@extends('layouts.admin')--}}
+{{--@section('page-title', 'Создать новость')--}}
+{{--@section('title', 'Создать новость')--}}
+{{--@section('content')--}}
+<x-layouts.admin
+    page-title="Создать новость"
+    title="Создать новость"
+>
     @if (session()->has('error_message'))
-        @include('panels.messages.error_message', ['message' => session('error_message', [])])
+        {{--        @include('components.panels.messages.error', ['message' => session('error_message', [])])--}}
+        <x-panels.messages.error message="{{session('error_message', [])[0]}}" />
     @endif
     @if (session()->has('success_message'))
-        @include('panels.messages.success_message', ['message' => session('success_message', [])])
+        {{--            @include('components.panels.messages.success', ['message' => session('success_message', [])])--}}
+        <x-panels.messages.success message="{{session('success_message', [])[0]}}" />
     @endif
     <form action="{{route('adminArticleCreateRequest')}}" method="post">
         @csrf
@@ -59,4 +65,5 @@
             </div>
         </div>
     </form>
-@endsection
+    {{--@endsection--}}
+</x-layouts.admin>

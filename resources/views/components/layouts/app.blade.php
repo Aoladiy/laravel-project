@@ -12,9 +12,7 @@
     <script src="/assets/js/vendor/slick.min.js"></script>
     <script src="/assets/js/script.js"></script>
     @stack('scripts')
-    <title>Рога и Сила - @section('page-title')
-            Главная страница
-        @show</title>
+    <title>{{ config('app.name') }} - {{ $pageTitle ?? 'Главная страница' }}</title>
     <link href="/assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
 </head>
 <body class="bg-white text-gray-600 font-sans leading-normal text-base tracking-normal flex min-h-screen flex-col">
@@ -24,15 +22,23 @@
             <div
                 class="container mx-auto block sm:flex sm:justify-between sm:items-center py-4 px-4 sm:px-0 space-y-4 sm:space-y-0">
                 <div class="flex justify-center">
-                    @section('header-logo')
+                    @isset($headerLogo)
+                        {{ $headerLogo }}
+                    @else
                         <a href="{{ route('home') }}" class="inline-block sm:inline hover:opacity-75">
-                            <img src="/assets/images/logo.png" width="222"
-                                 height="30" alt="">
+                            <img src="/assets/images/logo.png" width="222" height="30" alt="">
                         </a>
-                    @show
+                    @endisset
+
                 </div>
                 <div>
-                    @yield('user-menu')
+                    {{--                    @yield('user-menu')--}}
+                    @isset($userMenu)
+                        {{ $userMenu }}
+                    @else
+{{--                        @include('components.panels.user_not_authorized_menu')--}}
+                        <x-panels.user_not_authorized_menu />
+                    @endisset
                 </div>
             </div>
         </div>
@@ -51,17 +57,24 @@
                         </svg>
                     </button>
                 </form>
-                @yield('nav-menu')
+                {{--                @yield('nav-menu')--}}
+                {{ $navigationMenu ?? '' }}
+
             </div>
         </div>
     </header>
-    @yield('breadcrumbs')
+    {{--    @yield('breadcrumbs')--}}
+
+    {{$breadcrumbs ?? ''}}
     <main class="flex-1 container mx-auto bg-white">
-        @yield('template-content')
+        {{--        @yield('template-content')--}}
+        {{ $slot }}
     </main>
     <footer class="container mx-auto">
-        @yield('footer-info')
-        @include('panels.copyrights')
+        {{--        @yield('footerInfo')--}}
+        {{ $footerInfo ?? '' }}
+{{--        @include('components.panels.copyrights')--}}
+        <x-panels.copyrights />
     </footer>
 </div>
 </body>

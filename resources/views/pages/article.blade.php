@@ -1,7 +1,12 @@
-@extends('layouts.inner_two_columns')
-@section('page-title', $article->title)
-@section('title', $article->title)
-@section('content')
+{{--@extends('layouts.inner_two_columns')--}}
+{{--@section('page-title', $article->title)--}}
+{{--@section('title', $article->title)--}}
+{{--@section('content')--}}
+@props(['article'])
+<x-layouts.inner_two_columns
+    page-title="{!!$article->title!!}"
+    title="{!!$article->title!!}"
+>
     <div class="space-y-4">
 
         <img src="/assets/pictures/car_new_stinger.png" alt="" title="">
@@ -24,4 +29,5 @@
             К списку новостей
         </a>
     </div>
-@endsection
+    {{--@endsection--}}
+</x-layouts.inner_two_columns>
