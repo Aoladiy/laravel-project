@@ -43,7 +43,7 @@
                     <x-slot:label>Опубликован</x-slot:label>
                     <input
                         type="checkbox"
-                        name="is_new"
+                        name="published_at"
                         class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
                         @checked(old('published_at', true))
                     >
