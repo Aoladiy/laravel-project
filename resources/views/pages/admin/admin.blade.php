@@ -10,7 +10,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
             <div class="bg-white w-full border border-gray-100 rounded overflow-hidden shadow-lg hover:shadow-2xl pt-4">
                 <a class="flex w-full h-40 text-orange justify-center hover:opacity-75"
-                   href="../../../../../../Desktop/grade_layout/admin_cars.html">
+                   href="{{route('adminModels')}}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-40 w-40" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor" stroke-width="1">
                         <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>
@@ -20,7 +20,7 @@
                 </a>
                 <div class="px-6 py-4 text-center">
                     <div class="text-black font-bold text-xl mb-2">
-                        <a class="hover:text-orange" href="../../../../../../Desktop/grade_layout/admin_cars.html">
+                        <a class="hover:text-orange" href="{{route('adminModels')}}">
                             Управление моделями
                         </a>
                     </div>

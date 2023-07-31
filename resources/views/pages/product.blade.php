@@ -99,7 +99,7 @@
                             @isset($product->class)
                                 <tr>
                                     <td class="py-2 text-gray-600 w-1/2">Класс:</td>
-                                    <td class="py-2 text-black font-bold w-1/2">{{$product->class}}
+                                    <td class="py-2 text-black font-bold w-1/2">{{$product->class->name}}
                                     </td>
                                 </tr>
                             @endisset
@@ -124,13 +124,13 @@
                             @isset($product->carcase)
                                 <tr>
                                     <td class="py-2 text-gray-600 w-1/2">Кузов:</td>
-                                    <td class="py-2 text-black font-bold w-1/2">{{$product->carcase}}</td>
+                                    <td class="py-2 text-black font-bold w-1/2">{{$product->carcase->name}}</td>
                                 </tr>
                             @endisset
                             @isset($product->engine)
                                 <tr>
                                     <td class="py-2 text-gray-600 w-1/2">Двигатель:</td>
-                                    <td class="py-2 text-black font-bold w-1/2">{{$product->engine}}</td>
+                                    <td class="py-2 text-black font-bold w-1/2">{{$product->engine->name}}</td>
                                 </tr>
                             @endisset
                             <tr>

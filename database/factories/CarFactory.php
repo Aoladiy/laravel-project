@@ -2,6 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\CarBody;
+use App\Models\CarCarcase;
+use App\Models\CarClass;
+use App\Models\CarEngine;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,6 +30,9 @@ class CarFactory extends Factory
             'year' => $this->faker->optional()->year(),
             'color' => $this->faker->optional()->word(),
             'is_new' => $this->faker->boolean(),
+            'engine_id' => CarEngine::factory(),
+            'carcase_id' => CarCarcase::factory(),
+            'class_id' => CarClass::factory(),
         ];
     }
 }
