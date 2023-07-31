@@ -22,14 +22,14 @@ class ModelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|alpha_num',
-            'body' => 'required|alpha_num',
+            'name' => 'required|string',
+            'body' => 'required|string',
             'price' => 'required|numeric',
             'old_price' => 'sometimes|nullable|numeric',
-            'salon' => 'sometimes|nullable|alpha_num',
-            'kpp' => 'sometimes|nullable|alpha_num',
+            'salon' => 'sometimes|nullable|string',
+            'kpp' => 'sometimes|nullable|string',
             'year' => 'sometimes|nullable|numeric|gte:0',
-            'color' => 'sometimes|nullable|alpha_num',
+            'color' => 'sometimes|nullable|string',
             'is_new' => 'sometimes|nullable|accepted',
             'engine_id' => 'required|numeric',
             'carcase_id' => 'required|numeric',
