@@ -25,7 +25,7 @@ Route::get('/clients', [PagesController::class, 'clients'])->name('clients');
 Route::get('/articles', [PagesController::class, 'articles'])->name('articles');
 Route::get('/articles/{article:slug}', [PagesController::class, 'article'])->name('article');
 Route::get('/catalog', [CatalogController::class, 'catalog'])->name('catalog');
-Route::get('/catalog/{product}', [CatalogController::class, 'product'])->name('product');
+Route::get('/products/{id:id}', [CatalogController::class, 'product'])->name('product');
 Route::get('/admin', [AdminController::class, 'admin'])->name('admin');
 Route::get('/admin/articles', [AdminController::class, 'adminArticles'])->name('adminArticles');
 Route::get('/admin/articles/create', [AdminController::class, 'adminArticleCreate'])->name('adminArticleCreate');

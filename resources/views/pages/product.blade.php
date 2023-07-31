@@ -1,6 +1,6 @@
 @extends('layouts.inner')
-@section('page-title', 'К5')
-@section('title', 'К5')
+@section('page-title', $product->name)
+@section('title', $product->name)
 @push('scripts')
     <script>
         $(function () {
@@ -45,8 +45,10 @@
             <div class="space-y-4 w-full">
                 <div class="block px-4">
                     <p class="font-bold">Цена:</p>
-                    <p class="text-base line-through text-gray-400">2 394 901 ₽</p>
-                    <p class="font-bold text-2xl text-orange">1 577 900 ₽</p>
+                    @isset($product->old_price)
+                    <p class="text-base line-through text-gray-400">@include('panels.price_formatter', ['price' => $product->old_price])</p>
+                    @endisset
+                    <p class="font-bold text-2xl text-orange">@include('panels.price_formatter', ['price' => $product->price])</p>
                     <div class="mt-4 block">
                         <form>
                             <button
@@ -81,37 +83,50 @@
 
                     <div class="my-4 px-4" data-accordion-details>
                         <table class="w-full">
+                            @isset($product->salon)
                             <tr>
                                 <td class="py-2 text-gray-600 w-1/2">Салон:</td>
-                                <td class="py-2 text-black font-bold w-1/2">Черный, Натуральная кожа (WK)
+                                <td class="py-2 text-black font-bold w-1/2">{{$product->salon}}
                                 </td>
                             </tr>
+                            @endisset
+                            @isset($product->class)
                             <tr>
                                 <td class="py-2 text-gray-600 w-1/2">Класс:</td>
-                                <td class="py-2 text-black font-bold w-1/2">Бизнес-класс и представительский
-                                    класс
+                                <td class="py-2 text-black font-bold w-1/2">{{$product->class}}
                                 </td>
                             </tr>
+                            @endisset
+                            @isset($product->kpp)
                             <tr>
                                 <td class="py-2 text-gray-600 w-1/2">КПП:</td>
-                                <td class="py-2 text-black font-bold w-1/2">Автомат, 6 AT</td>
+                                <td class="py-2 text-black font-bold w-1/2">{{$product->kpp}}</td>
                             </tr>
+                            @endisset
+                            @isset($product->year)
                             <tr>
                                 <td class="py-2 text-gray-600 w-1/2">Год выпуска:</td>
-                                <td class="py-2 text-black font-bold w-1/2">2022</td>
+                                <td class="py-2 text-black font-bold w-1/2">{{$product->year}}</td>
                             </tr>
+                            @endisset
+                            @isset($product->color)
                             <tr>
                                 <td class="py-2 text-gray-600 w-1/2">Цвет:</td>
-                                <td class="py-2 text-black font-bold w-1/2">Yacht Blue (DU3)</td>
+                                <td class="py-2 text-black font-bold w-1/2">{{$product->color}}</td>
                             </tr>
+                            @endisset
+                            @isset($product->carcase)
                             <tr>
                                 <td class="py-2 text-gray-600 w-1/2">Кузов:</td>
-                                <td class="py-2 text-black font-bold w-1/2">Седан</td>
+                                <td class="py-2 text-black font-bold w-1/2">{{$product->carcase}}</td>
                             </tr>
+                            @endisset
+                            @isset($product->engine)
                             <tr>
                                 <td class="py-2 text-gray-600 w-1/2">Двигатель:</td>
-                                <td class="py-2 text-black font-bold w-1/2">2.0 MPI / 150 л.c. / Бензин</td>
+                                <td class="py-2 text-black font-bold w-1/2">{{$product->engine}}</td>
                             </tr>
+                            @endisset
                             <tr>
                                 <td class="py-2 text-gray-600 w-1/2">Теги:</td>
                                 <td class="py-2 text-black font-bold w-1/2">
@@ -144,22 +159,7 @@
                     </div>
                     <div class="my-4 px-4" data-accordion-details style="display: none">
                         <div class="space-y-4">
-                            <p>Весеннее половодье точно отражает крестьянский коралловый риф, кроме этого,
-                                здесь есть ценнейшие коллекции мексиканских масок, бронзовые и каменные
-                                статуи из Индии и Цейлона, бронзовые барельефы и изваяния, созданные
-                                мастерами Экваториальной Африки пять-шесть веков назад. Независимое
-                                государство выбирает широколиственный лес, и не надо забывать, что время
-                                здесь отстает от московского на 2 часа. Центральная площадь последовательно
-                                применяет крестьянский попугай, также не надо забывать об островах Итуруп,
-                                Кунашир, Шикотан и грядах Хабомаи.</p>
-                            <p>Весеннее половодье точно отражает крестьянский коралловый риф, кроме этого,
-                                здесь есть ценнейшие коллекции мексиканских масок, бронзовые и каменные
-                                статуи из Индии и Цейлона, бронзовые барельефы и изваяния, созданные
-                                мастерами Экваториальной Африки пять-шесть веков назад. Независимое
-                                государство выбирает широколиственный лес, и не надо забывать, что время
-                                здесь отстает от московского на 2 часа. Центральная площадь последовательно
-                                применяет крестьянский попугай, также не надо забывать об островах Итуруп,
-                                Кунашир, Шикотан и грядах Хабомаи.</p>
+                            <div>{!!$product->body!!}</div>
                         </div>
                     </div>
                 </div>
