@@ -1,34 +1,38 @@
-@extends('layouts.inner')
-@section('page-title', 'К5')
-@section('title', 'К5')
-@push('scripts')
-    <script>
-        $(function () {
-            $('[data-slick-carousel-detail]').each(function () {
-                let $carousel = $(this);
+{{--@extends('layouts.inner')--}}
+{{--@section('page-title', $product->name)--}}
+{{--@section('title', $product->name)--}}
+<x-layouts.inner
+        page-title="{{ $product->name }}"
+        title="{{ $product->name }}"
+>
+    @push('scripts')
+        <script>
+            $(function () {
+                $('[data-slick-carousel-detail]').each(function () {
+                    let $carousel = $(this);
 
-                $carousel.find('[data-slick-carousel-detail-items]').slick({
-                    dots: true,
-                    arrows: false,
-                    appendDots: $carousel.find('[data-slick-carousel-detail-pager]'),
-                    rows: 0,
-                    customPaging: function (slick, index) {
-                        let imageSrc = slick.$slides[index].src;
+                    $carousel.find('[data-slick-carousel-detail-items]').slick({
+                        dots: true,
+                        arrows: false,
+                        appendDots: $carousel.find('[data-slick-carousel-detail-pager]'),
+                        rows: 0,
+                        customPaging: function (slick, index) {
+                            let imageSrc = slick.$slides[index].src;
 
-                        return `
+                            return `
 <div class="relative">
   <svg xmlns="http://www.w3.org/2000/svg" class="active-arrow absolute -top-6 left-2/4 -ml-3 text-orange h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
   </svg>
   <span class="inline-block border rounded cursor-pointer"><img class="h-20 w-40 object-cover" src="${imageSrc}" alt="" title=""></span>
 </div>`;
-                    }
+                        }
+                    })
                 })
             })
-        })
-    </script>
-@endpush
-@section('content')
+        </script>
+    @endpush
+    {{--@section('content')--}}
     <div class="flex-1 grid grid-cols-1 lg:grid-cols-5 border-b w-full">
         <div class="col-span-3 border-r-0 sm:border-r pb-4 pr-4 text-center catalog-detail-slick-preview"
              data-slick-carousel-detail>
@@ -45,12 +49,16 @@
             <div class="space-y-4 w-full">
                 <div class="block px-4">
                     <p class="font-bold">Цена:</p>
-                    <p class="text-base line-through text-gray-400">2 394 901 ₽</p>
-                    <p class="font-bold text-2xl text-orange">1 577 900 ₽</p>
+                    @isset($product->old_price)
+{{--                        <p class="text-base line-through text-gray-400">@include('components.panels.price_formatter', ['price' => $product->old_price])</p>--}}
+                        <p class="text-base line-through text-gray-400"><x-price :price="$product->old_price" /></p>
+                    @endisset
+{{--                    <p class="font-bold text-2xl text-orange">@include('components.panels.price_formatter', ['price' => $product->price])</p>--}}
+                    <p class="font-bold text-2xl text-orange"><x-price :price="$product->price" /></p>
                     <div class="mt-4 block">
                         <form>
                             <button
-                                class="inline-block bg-orange hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
+                                    class="inline-block bg-orange hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-6 w-6 mr-2"
                                      fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -63,8 +71,8 @@
                 </div>
                 <div class="block border-t clear-both w-full" data-accordion data-active>
                     <div
-                        class="text-black text-2xl font-bold flex items-center justify-between hover:bg-gray-50 p-4 cursor-pointer"
-                        data-accordion-toggle>
+                            class="text-black text-2xl font-bold flex items-center justify-between hover:bg-gray-50 p-4 cursor-pointer"
+                            data-accordion-toggle>
                         <span>Параметры</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="text-orange h-6 w-6" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor" data-accordion-not-active
@@ -81,37 +89,50 @@
 
                     <div class="my-4 px-4" data-accordion-details>
                         <table class="w-full">
-                            <tr>
-                                <td class="py-2 text-gray-600 w-1/2">Салон:</td>
-                                <td class="py-2 text-black font-bold w-1/2">Черный, Натуральная кожа (WK)
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 text-gray-600 w-1/2">Класс:</td>
-                                <td class="py-2 text-black font-bold w-1/2">Бизнес-класс и представительский
-                                    класс
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 text-gray-600 w-1/2">КПП:</td>
-                                <td class="py-2 text-black font-bold w-1/2">Автомат, 6 AT</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 text-gray-600 w-1/2">Год выпуска:</td>
-                                <td class="py-2 text-black font-bold w-1/2">2022</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 text-gray-600 w-1/2">Цвет:</td>
-                                <td class="py-2 text-black font-bold w-1/2">Yacht Blue (DU3)</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 text-gray-600 w-1/2">Кузов:</td>
-                                <td class="py-2 text-black font-bold w-1/2">Седан</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 text-gray-600 w-1/2">Двигатель:</td>
-                                <td class="py-2 text-black font-bold w-1/2">2.0 MPI / 150 л.c. / Бензин</td>
-                            </tr>
+                            @isset($product->salon)
+                                <tr>
+                                    <td class="py-2 text-gray-600 w-1/2">Салон:</td>
+                                    <td class="py-2 text-black font-bold w-1/2">{{$product->salon}}
+                                    </td>
+                                </tr>
+                            @endisset
+                            @isset($product->class)
+                                <tr>
+                                    <td class="py-2 text-gray-600 w-1/2">Класс:</td>
+                                    <td class="py-2 text-black font-bold w-1/2">{{$product->class->name}}
+                                    </td>
+                                </tr>
+                            @endisset
+                            @isset($product->kpp)
+                                <tr>
+                                    <td class="py-2 text-gray-600 w-1/2">КПП:</td>
+                                    <td class="py-2 text-black font-bold w-1/2">{{$product->kpp}}</td>
+                                </tr>
+                            @endisset
+                            @isset($product->year)
+                                <tr>
+                                    <td class="py-2 text-gray-600 w-1/2">Год выпуска:</td>
+                                    <td class="py-2 text-black font-bold w-1/2">{{$product->year}}</td>
+                                </tr>
+                            @endisset
+                            @isset($product->color)
+                                <tr>
+                                    <td class="py-2 text-gray-600 w-1/2">Цвет:</td>
+                                    <td class="py-2 text-black font-bold w-1/2">{{$product->color}}</td>
+                                </tr>
+                            @endisset
+                            @isset($product->carcase)
+                                <tr>
+                                    <td class="py-2 text-gray-600 w-1/2">Кузов:</td>
+                                    <td class="py-2 text-black font-bold w-1/2">{{$product->carcase->name}}</td>
+                                </tr>
+                            @endisset
+                            @isset($product->engine)
+                                <tr>
+                                    <td class="py-2 text-gray-600 w-1/2">Двигатель:</td>
+                                    <td class="py-2 text-black font-bold w-1/2">{{$product->engine->name}}</td>
+                                </tr>
+                            @endisset
                             <tr>
                                 <td class="py-2 text-gray-600 w-1/2">Теги:</td>
                                 <td class="py-2 text-black font-bold w-1/2">
@@ -127,8 +148,8 @@
                 </div>
                 <div class="block border-t clear-both w-full" data-accordion>
                     <div
-                        class="text-black text-2xl font-bold flex items-center justify-between hover:bg-gray-50 p-4 cursor-pointer"
-                        data-accordion-toggle>
+                            class="text-black text-2xl font-bold flex items-center justify-between hover:bg-gray-50 p-4 cursor-pointer"
+                            data-accordion-toggle>
                         <span>Описание</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="text-orange h-6 w-6" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor" data-accordion-not-active>
@@ -144,26 +165,12 @@
                     </div>
                     <div class="my-4 px-4" data-accordion-details style="display: none">
                         <div class="space-y-4">
-                            <p>Весеннее половодье точно отражает крестьянский коралловый риф, кроме этого,
-                                здесь есть ценнейшие коллекции мексиканских масок, бронзовые и каменные
-                                статуи из Индии и Цейлона, бронзовые барельефы и изваяния, созданные
-                                мастерами Экваториальной Африки пять-шесть веков назад. Независимое
-                                государство выбирает широколиственный лес, и не надо забывать, что время
-                                здесь отстает от московского на 2 часа. Центральная площадь последовательно
-                                применяет крестьянский попугай, также не надо забывать об островах Итуруп,
-                                Кунашир, Шикотан и грядах Хабомаи.</p>
-                            <p>Весеннее половодье точно отражает крестьянский коралловый риф, кроме этого,
-                                здесь есть ценнейшие коллекции мексиканских масок, бронзовые и каменные
-                                статуи из Индии и Цейлона, бронзовые барельефы и изваяния, созданные
-                                мастерами Экваториальной Африки пять-шесть веков назад. Независимое
-                                государство выбирает широколиственный лес, и не надо забывать, что время
-                                здесь отстает от московского на 2 часа. Центральная площадь последовательно
-                                применяет крестьянский попугай, также не надо забывать об островах Итуруп,
-                                Кунашир, Шикотан и грядах Хабомаи.</p>
+                            <div>{!!$product->body!!}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection
+    {{--@endsection--}}
+</x-layouts.inner>

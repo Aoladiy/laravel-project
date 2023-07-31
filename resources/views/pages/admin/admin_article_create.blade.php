@@ -1,62 +1,64 @@
-@extends('layouts.admin')
-@section('page-title', 'Создать новость')
-@section('title', 'Создать новость')
-@section('content')
+{{--@extends('layouts.admin')--}}
+{{--@section('page-title', 'Создать новость')--}}
+{{--@section('title', 'Создать новость')--}}
+{{--@section('content')--}}
+<x-layouts.admin
+    page-title="Создать новость"
+    title="Создать новость"
+>
     @if (session()->has('error_message'))
-        @include('panels.messages.error_message', ['message' => session('error_message', [])])
+        {{--        @include('components.panels.messages.error', ['message' => session('error_message', [])])--}}
+        <x-panels.messages.error message="{{session('error_message', [])[0]}}" />
     @endif
     @if (session()->has('success_message'))
-        @include('panels.messages.success_message', ['message' => session('success_message', [])])
+        {{--            @include('components.panels.messages.success', ['message' => session('success_message', [])])--}}
+        <x-panels.messages.success message="{{session('success_message', [])[0]}}" />
     @endif
     <form action="{{route('adminArticleCreateRequest')}}" method="post">
         @csrf
         <div class="mt-8 max-w-md">
             <div class="grid grid-cols-1 gap-6">
-                <div class="block">
-                    <label for="field1" class="text-gray-700 font-bold">Название новости</label>
-                    <input id="field1" type="text" name="title" value="{{old('title')}}"
+                <x-forms.input for="title" name="title">
+                    <x-slot:label>Название новости</x-slot:label>
+                    <input id="title" type="text" name="title" value="{{old('title')}}"
                            class=" mt-1 block w-full rounded-md @error('title') border-red-600 @else border-gray-300 @enderror shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                            placeholder="">
-                    @error('title') <span class="text-xs italic text-red-600">{{$message}}</span> @enderror
-                </div>
-                <div class="block">
-                    <label for="field1" class="text-gray-700 font-bold">Краткое описание новости</label>
-                    <input id="field1" type="text" name="description" value="{{old('description')}}"
+                </x-forms.input>
+
+                <x-forms.input for="description" name="description">
+                    <x-slot:label>Краткое описание новости</x-slot:label>
+                    <input id="description" type="text" name="description" value="{{old('description')}}"
                            class=" mt-1 block w-full rounded-md @error('description') border-red-600 @else border-gray-300 @enderror shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                            placeholder="">
-                    @error('description') <span class="text-xs italic text-red-600">{{$message}}</span> @enderror
-                </div>
-                <div class="block">
-                    <label for="field6" class="text-gray-700 font-bold">Детальное описание</label>
-                    <textarea id="field6" name="body"
-                              class="mt-1 block w-full rounded-md @error('body') border-red-600 @else border-gray-300 @enderror shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                              rows="3">{{old('body')}}</textarea>
-                    @error('body') <span class="text-xs italic text-red-600">{{$message}}</span> @enderror
-                </div>
-                <div class="block">
-                    <div class="mt-2">
-                        <div>
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input type="checkbox" name="published_at"
-                                       class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
-                                       checked="">
-                                <span class="ml-2">Опубликован</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+                </x-forms.input>
 
-                <div class="block">
-                    <button
-                        class="inline-block bg-orange hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
+                <x-forms.input for="body" name="body">
+                    <x-slot:label>Детальное описание</x-slot:label>
+                    <input id="body" type="text" name="body" value="{{old('body')}}"
+                           class=" mt-1 block w-full rounded-md @error('body') border-red-600 @else border-gray-300 @enderror shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           placeholder="">
+                </x-forms.input>
+
+                <x-forms.checkbox name="published_at">
+                    <x-slot:label>Опубликован</x-slot:label>
+                    <input
+                        type="checkbox"
+                        name="published_at"
+                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
+                        @checked(old('published_at', true))
+                    >
+                </x-forms.checkbox>
+
+                <x-forms.row>
+                    <x-forms.submit-button>
                         Сохранить
-                    </button>
-                    <button
-                        class="inline-block bg-gray-400 hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
+                    </x-forms.submit-button>
+                    <x-forms.cancel-button href="{{ route('adminArticleCreate') }}" >
                         Отменить
-                    </button>
-                </div>
+                    </x-forms.cancel-button>
+                </x-forms.row>
             </div>
         </div>
     </form>
-@endsection
+    {{--@endsection--}}
+</x-layouts.admin>
