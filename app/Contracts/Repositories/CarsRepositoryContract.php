@@ -21,5 +21,4 @@ interface CarsRepositoryContract
     public function update(int $id, array $fields): Car;
 
     public function delete(int $id): void;
-
 }

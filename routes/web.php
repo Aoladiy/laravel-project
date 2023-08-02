@@ -25,7 +25,7 @@ Route::get('/finance', [PagesController::class, 'finance'])->name('finance');
 Route::get('/clients', [PagesController::class, 'clients'])->name('clients');
 
 Route::get('/articles', [PagesController::class, 'articles'])->name('articles');
-Route::get('/articles/{article:slug}', [PagesController::class, 'article'])->name('article');
+Route::get('/articles/{slug}', [PagesController::class, 'article'])->name('article');
 
 
 Route::get('/catalog', [CatalogController::class, 'catalog'])->name('catalog');

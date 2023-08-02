@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\ArticlesRepositoryContract;
 use App\Contracts\Repositories\CarsRepositoryContract;
 use App\Models\Article;
 use App\Models\Car;
@@ -12,9 +13,9 @@ use Illuminate\View\View;
 
 class PagesController extends Controller
 {
-    public function home(CarsRepositoryContract $carsRepositoryContract): View
+    public function home(CarsRepositoryContract $carsRepositoryContract, ArticlesRepositoryContract $articlesRepositoryContract): View
     {
-        $articles = Article::limit(3)->latest('published_at')->get();
+        $articles = $articlesRepositoryContract->getNews();
         $models = $carsRepositoryContract->getModelsOfTheWeek();
         return view('pages.homepage', ['articles' => $articles, 'models' => $models]);
     }
@@ -84,14 +85,15 @@ class PagesController extends Controller
         ]);
     }
 
-    public function articles(): View
+    public function articles(ArticlesRepositoryContract $articlesRepositoryContract): View
     {
-        $articles = Article::where('published_at', '<>', null)->latest('published_at')->get();
+        $articles = $articlesRepositoryContract->getAllPublishedNews();
         return view('pages.articles', ['articles' => $articles]);
     }
 
-    public function article(Article $article): View
+    public function article($slug, ArticlesRepositoryContract $articlesRepositoryContract): View
     {
+        $article = $articlesRepositoryContract->findBySlug($slug);
         return view('pages.article', ['article' => $article]);
     }
 }

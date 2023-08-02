@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\ArticlesRepositoryContract;
 use App\Contracts\Repositories\CarsRepositoryContract;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\ModelRequest;
@@ -19,9 +20,9 @@ class AdminController extends Controller
         return view('pages.admin.admin');
     }
 
-    public function adminArticles(): View
+    public function adminArticles(ArticlesRepositoryContract $articlesRepositoryContract): View
     {
-        $articles = Article::get();
+        $articles = $articlesRepositoryContract->findAll();
         return view('pages.admin.admin_articles', ['articles' => $articles]);
     }
 
@@ -30,7 +31,7 @@ class AdminController extends Controller
         return view('pages.admin.admin_article_create');
     }
 
-    public function adminArticleCreateRequest(ArticleRequest $request): RedirectResponse
+    public function adminArticleCreateRequest(ArticleRequest $request, ArticlesRepositoryContract $articlesRepositoryContract): RedirectResponse
     {
         $data = $request->only(['title', 'description', 'body', 'published_at']);
 
@@ -42,13 +43,15 @@ class AdminController extends Controller
 
         $data['slug'] = Str::slug($data['title']);
 
-        $isSlugExists = Article::where('slug', '=', $data['slug'])->pluck('slug')->all();
-        if ($isSlugExists) {
+        try {
+            $articlesRepositoryContract->findBySlug($data['slug']);
             return back()->with('error_message', ['Запись с таким slug уже существует']);
+        } catch (\Exception $exception)
+        {
         }
 
         try {
-            Article::create($data);
+            $articlesRepositoryContract->create($data);
             return back()->with('success_message', ['Запись успешно создана']);
         } catch (\Exception $exception) {
             return back()->with('error_message', ['Запись не создана']);
