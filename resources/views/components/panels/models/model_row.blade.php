@@ -15,7 +15,7 @@
     <td class="border px-2 py-2">{{$model->class->name ?? ' - '}}</td>
     <td class="border px-2 py-2">
         <div class="flex items-center">
-            <a href="{{route('adminModelEdit', $model)}}"
+            <a href="{{route('adminModelEdit', $model->id)}}"
                class="inline-block bg-orange hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-2 rounded"
                title="Редактировать">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
@@ -30,7 +30,7 @@
         </div>
     </td>
     <td class="border px-2 py-2">
-        <form class="flex items-center" action="{{route('adminModelDeleteRequest', $model)}}" method="post">
+        <form class="flex items-center" action="{{route('adminModelDeleteRequest', $model->id)}}" method="post">
             @method('delete')
             @csrf
             <button type="submit"

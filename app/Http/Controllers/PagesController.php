@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\CarsRepositoryContract;
 use App\Models\Article;
 use App\Models\Car;
 use App\Models\CarCarcase;
@@ -11,10 +12,10 @@ use Illuminate\View\View;
 
 class PagesController extends Controller
 {
-    public function home(): View
+    public function home(CarsRepositoryContract $carsRepositoryContract): View
     {
         $articles = Article::limit(3)->latest('published_at')->get();
-        $models = Car::limit(4)->where('is_new', '=', true)->get();
+        $models = $carsRepositoryContract->getModelsOfTheWeek();
         return view('pages.homepage', ['articles' => $articles, 'models' => $models]);
     }
 
@@ -38,9 +39,9 @@ class PagesController extends Controller
         return view('pages.finance');
     }
 
-    public function clients(): View
+    public function clients(CarsRepositoryContract $carsRepositoryContract): View
     {
-        $models = Car::get();
+        $models = $carsRepositoryContract->findAll();
         $avgPrice = $models->avg('price');
         $avgPriceWithDiscounts = $models->where('old_price', '<>', null)->avg('price');
         $maxPrice = $models->max('price');
