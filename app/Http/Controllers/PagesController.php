@@ -87,7 +87,8 @@ class PagesController extends Controller
 
     public function articles(ArticlesRepositoryContract $articlesRepositoryContract): View
     {
-        $articles = $articlesRepositoryContract->getAllPublishedNews();
+        $currentPage = request()->get('page');
+        $articles = $articlesRepositoryContract->getAllPublishedNews(page: $currentPage ?? 1);
         return view('pages.articles', ['articles' => $articles]);
     }
 

@@ -19,7 +19,8 @@ class CatalogController extends Controller
             ->setHighest($request->get('highest'))
             ->setOrderModel($request->get('order_model'))
             ->setOrderPrice($request->get('order_price'));
-        $models = $carsRepositoryContract->getCatalog($catalogFilterDTO);
+        $currentPage = $request->get('page');
+        $models = $carsRepositoryContract->paginateForCatalog($catalogFilterDTO, page: $currentPage ?? 1);
         return view('pages.catalog', ['models' => $models]);
     }
 

@@ -14,7 +14,7 @@
         @endforeach
         <div>
 {{--            @include('components.panels.pagination_menu')--}}
-            <x-panels.pagination_menu />
+            <x-panels.pagination :paginator="$articles" />
         </div>
     </div>
 {{--@endsection--}}

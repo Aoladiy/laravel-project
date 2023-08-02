@@ -4,12 +4,22 @@ namespace App\Contracts\Repositories;
 
 use App\DTO\CatalogFilterDTO;
 use App\Models\Car;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 interface CarsRepositoryContract
 {
-    public function getCatalog(CatalogFilterDTO $catalogFilterDTO): Collection;
+    public function paginateForCatalog(
+        CatalogFilterDTO $catalogFilterDTO,
+        array $fields = ['*'],
+        int $perPage = 10,
+        int $page = 1,
+        string $pageName = 'page',
+    ): LengthAwarePaginator;
+
+
+    public function getCatalog(CatalogFilterDTO $catalogFilterDTO, array $fields): Collection;
 
     public function getModelsOfTheWeek(): Collection;
 

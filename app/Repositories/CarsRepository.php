@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Contracts\Repositories\CarsRepositoryContract;
 use App\DTO\CatalogFilterDTO;
 use App\Models\Car;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -14,7 +15,25 @@ class CarsRepository implements CarsRepositoryContract
     {
     }
 
-    public function getCatalog(CatalogFilterDTO $catalogFilterDTO): Collection
+    public function paginateForCatalog(
+        CatalogFilterDTO $catalogFilterDTO,
+        array            $fields = ['*'],
+        int              $perPage = 16,
+        int              $page = 1,
+        string           $pageName = 'page',
+    ): LengthAwarePaginator
+    {
+        return $this->catalogQuery($catalogFilterDTO)->paginate($perPage, $fields, $pageName, $page);
+    }
+
+    public function getCatalog(CatalogFilterDTO $catalogFilterDTO,
+                               array            $fields = ['*'],
+    ): Collection
+    {
+        return $this->catalogQuery($catalogFilterDTO)->get($fields);
+    }
+
+    public function catalogQuery(CatalogFilterDTO $catalogFilterDTO)
     {
         return $this->getModel()
             ->when($catalogFilterDTO->getName() !== null, fn($query) => $query->where('name', 'like', "%" . $catalogFilterDTO->getName() . "%"))
@@ -23,8 +42,7 @@ class CarsRepository implements CarsRepositoryContract
             ->when($catalogFilterDTO->getOrderPrice() !== null, fn($query) => $query
                 ->orderBy('price', $catalogFilterDTO->getOrderPrice() === 'desc' ? 'desc' : 'asc'))
             ->when($catalogFilterDTO->getOrderModel() !== null, fn($query) => $query
-                ->orderBy('name', $catalogFilterDTO->getOrderModel() === 'desc' ? 'desc' : 'asc'))
-            ->get();
+                ->orderBy('name', $catalogFilterDTO->getOrderModel() === 'desc' ? 'desc' : 'asc'));
     }
 
     public function getModelsOfTheWeek(): Collection

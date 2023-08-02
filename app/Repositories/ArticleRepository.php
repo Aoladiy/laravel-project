@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Contracts\Repositories\ArticlesRepositoryContract;
 use App\Models\Article;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class ArticleRepository implements ArticlesRepositoryContract
@@ -17,9 +18,12 @@ class ArticleRepository implements ArticlesRepositoryContract
         return $this->getArticle()->limit(3)->latest('published_at')->get();
     }
 
-    public function getAllPublishedNews(): Collection
+    public function getAllPublishedNews(array  $fields = ['*'],
+                                        int    $perPage = 5,
+                                        int    $page = 1,
+                                        string $pageName = 'page'): LengthAwarePaginator
     {
-        return $this->getArticle()->where('published_at', '<>', null)->latest('published_at')->get();
+        return $this->getArticle()->where('published_at', '<>', null)->latest('published_at')->paginate($perPage, $fields, $pageName, $page);
     }
 
     public function findBySlug($slug): Article
