@@ -2,18 +2,14 @@
 
 namespace App\Contracts\Repositories;
 
+use App\DTO\CatalogFilterDTO;
 use App\Models\Car;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 interface CarsRepositoryContract
 {
-    public function getCatalog($name,
-                               $lowest,
-                               $highest,
-                               $order_price,
-                               $order_model
-    ): Collection;
+    public function getCatalog(CatalogFilterDTO $catalogFilterDTO): Collection;
 
     public function getModelsOfTheWeek(): Collection;
 

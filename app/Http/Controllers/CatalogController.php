@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\CarsRepositoryContract;
+use App\DTO\CatalogFilterDTO;
 use App\Models\Car;
 use App\Repositories\CarsRepository;
 use Illuminate\Http\Request;
@@ -12,12 +13,13 @@ class CatalogController extends Controller
 {
     public function catalog(Request $request, CarsRepositoryContract $carsRepositoryContract): View
     {
-        $name = $request->get('name');
-        $lowest = $request->get('lowest');
-        $highest = $request->get('highest');
-        $order_price = $request->get('order_price');
-        $order_model = $request->get('order_model');
-        $models = $carsRepositoryContract->getCatalog($name, $lowest, $highest, $order_price, $order_model);
+        $catalogFilterDTO = (new CatalogFilterDTO())
+            ->setName($request->get('name'))
+            ->setLowest($request->get('lowest'))
+            ->setHighest($request->get('highest'))
+            ->setOrderModel($request->get('order_model'))
+            ->setOrderPrice($request->get('order_price'));
+        $models = $carsRepositoryContract->getCatalog($catalogFilterDTO);
         return view('pages.catalog', ['models' => $models]);
     }
 

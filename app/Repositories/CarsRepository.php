@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\CarsRepositoryContract;
+use App\DTO\CatalogFilterDTO;
 use App\Models\Car;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -13,20 +14,16 @@ class CarsRepository implements CarsRepositoryContract
     {
     }
 
-    public function getCatalog($name = null,
-                               $lowest = null,
-                               $highest = null,
-                               $order_price = null,
-                               $order_model = null): Collection
+    public function getCatalog(CatalogFilterDTO $catalogFilterDTO): Collection
     {
         return $this->getModel()
-            ->when($name !== null, fn($query) => $query->where('name', 'like', "%$name%"))
-            ->when($lowest !== null, fn($query) => $query->where('price', '>=', $lowest))
-            ->when($highest !== null, fn($query) => $query->where('price', '<=', $highest))
-            ->when($order_price !== null, fn($query) => $query
-                ->orderBy('price', $order_price === 'desc' ? 'desc' : 'asc'))
-            ->when($order_model !== null, fn($query) => $query
-                ->orderBy('name', $order_model === 'desc' ? 'desc' : 'asc'))
+            ->when($catalogFilterDTO->getName() !== null, fn($query) => $query->where('name', 'like', "%" . $catalogFilterDTO->getName() . "%"))
+            ->when($catalogFilterDTO->getLowest() !== null, fn($query) => $query->where('price', '>=', $catalogFilterDTO->getLowest()))
+            ->when($catalogFilterDTO->getHighest() !== null, fn($query) => $query->where('price', '<=', $catalogFilterDTO->getHighest()))
+            ->when($catalogFilterDTO->getOrderPrice() !== null, fn($query) => $query
+                ->orderBy('price', $catalogFilterDTO->getOrderPrice() === 'desc' ? 'desc' : 'asc'))
+            ->when($catalogFilterDTO->getOrderModel() !== null, fn($query) => $query
+                ->orderBy('name', $catalogFilterDTO->getOrderModel() === 'desc' ? 'desc' : 'asc'))
             ->get();
     }
 
