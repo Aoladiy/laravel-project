@@ -8,7 +8,12 @@ use Illuminate\Support\Collection;
 
 interface CarsRepositoryContract
 {
-    public function getCatalog(Request $request): Collection;
+    public function getCatalog($name,
+                               $lowest,
+                               $highest,
+                               $order_price,
+                               $order_model
+    ): Collection;
 
     public function getModelsOfTheWeek(): Collection;
 

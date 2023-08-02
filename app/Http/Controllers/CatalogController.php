@@ -12,7 +12,12 @@ class CatalogController extends Controller
 {
     public function catalog(Request $request, CarsRepositoryContract $carsRepositoryContract): View
     {
-        $models = $carsRepositoryContract->getCatalog($request);
+        $name = $request->get('name');
+        $lowest = $request->get('lowest');
+        $highest = $request->get('highest');
+        $order_price = $request->get('order_price');
+        $order_model = $request->get('order_model');
+        $models = $carsRepositoryContract->getCatalog($name, $lowest, $highest, $order_price, $order_model);
         return view('pages.catalog', ['models' => $models]);
     }
 

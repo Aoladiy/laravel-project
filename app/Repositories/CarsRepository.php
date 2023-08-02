@@ -13,16 +13,20 @@ class CarsRepository implements CarsRepositoryContract
     {
     }
 
-    public function getCatalog(Request $request): Collection
+    public function getCatalog($name = null,
+                               $lowest = null,
+                               $highest = null,
+                               $order_price = null,
+                               $order_model = null): Collection
     {
         return $this->getModel()
-            ->when(($model = $request->get('name')) !== null, fn($query) => $query->where('name', 'like', "%$model%"))
-            ->when(($minPrice = $request->get('lowest')) !== null, fn($query) => $query->where('price', '>=', $minPrice))
-            ->when(($maxPrice = $request->get('highest')) !== null, fn($query) => $query->where('price', '<=', $maxPrice))
-            ->when(($orderPrice = $request->get('order_price')) !== null, fn($query) => $query
-                ->orderBy('price', $orderPrice === 'desc' ? 'desc' : 'asc'))
-            ->when(($orderModel = $request->get('order_model')) !== null, fn($query) => $query
-                ->orderBy('name', $orderModel === 'desc' ? 'desc' : 'asc'))
+            ->when($name !== null, fn($query) => $query->where('name', 'like', "%$name%"))
+            ->when($lowest !== null, fn($query) => $query->where('price', '>=', $lowest))
+            ->when($highest !== null, fn($query) => $query->where('price', '<=', $highest))
+            ->when($order_price !== null, fn($query) => $query
+                ->orderBy('price', $order_price === 'desc' ? 'desc' : 'asc'))
+            ->when($order_model !== null, fn($query) => $query
+                ->orderBy('name', $order_model === 'desc' ? 'desc' : 'asc'))
             ->get();
     }
 
