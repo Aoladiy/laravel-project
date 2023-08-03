@@ -4,7 +4,9 @@
     <td class="border px-4 py-2">{{$article->title}}</td>
     <td class="border px-4 py-2">{{$article->description}}</td>
     <td class="border px-4 py-2">{{$article->published_at ?? 'null'}}</td>
-    <td class="border px-4 py-2">Киа Seed</td>
+    <td class="border px-4 py-2">
+        <x-panels.tags :tags="$article->tags" />
+    </td>
     <td class="border px-4 py-2">
         <div class="flex items-center">
             <a href="../../../../../../Desktop/grade_layout/admin_article_form.html"
