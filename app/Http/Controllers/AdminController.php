@@ -49,11 +49,46 @@ class AdminController extends Controller
         }
 
         try {
-            $model = $articlesRepositoryContract->create($data);
-            $tagsSynchronizerServiceContract->sync($model, $tagsRequest->get('tags'));
+            $article = $articlesRepositoryContract->create($data);
+            $tagsSynchronizerServiceContract->sync($article, $tagsRequest->get('tags'));
             return back()->with('success_message', ['Запись успешно создана']);
         } catch (\Exception $exception) {
             return back()->with('error_message', ['Запись не создана']);
+        }
+    }
+
+    public function adminArticleEdit($slug, ArticlesRepositoryContract $articlesRepositoryContract): View
+    {
+        $article = $articlesRepositoryContract->findBySlug($slug);
+        return view('pages.admin.admin_article_edit', ['article' => $article]);
+    }
+
+    public function adminArticleEditRequest(ArticleRequest                  $request,
+                                            TagsRequest                     $tagsRequest,
+                                                                            $slug,
+                                            ArticlesRepositoryContract      $articlesRepositoryContract,
+                                            TagsSynchronizerServiceContract $tagsSynchronizerServiceContract
+    ): RedirectResponse
+    {
+        $data = $request->only(['title', 'description', 'body', 'published_at', 'tags']);
+        $id = $articlesRepositoryContract->findBySlug($slug)->id;
+        try {
+            $article = $articlesRepositoryContract->update($id, $data);
+            $tagsSynchronizerServiceContract->sync($article, $tagsRequest->get('tags'));
+            return back()->with('success_message', ['Запись успешно изменена']);
+        } catch (\Exception $exception) {
+            return back()->with('error_message', ['Запись не изменена']);
+        }
+    }
+
+    public function adminArticleDeleteRequest($slug, ArticlesRepositoryContract $articlesRepositoryContract): RedirectResponse
+    {
+        try {
+            $id = $articlesRepositoryContract->findBySlug($slug)->id;
+            $articlesRepositoryContract->delete($id);
+            return back()->with('success_message', ['Запись с slug=' . $slug . ' успешно удалена']);
+        } catch (\Exception $exception) {
+            return back()->with('error_message', ['Запись с slug=' . $slug . ' не удалена']);
         }
     }
 

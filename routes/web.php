@@ -37,6 +37,9 @@ Route::get('/admin', [AdminController::class, 'admin'])->name('admin');
 Route::get('/admin/articles', [AdminController::class, 'adminArticles'])->name('adminArticles');
 Route::get('/admin/articles/create', [AdminController::class, 'adminArticleCreate'])->name('adminArticleCreate');
 Route::post('/admin/articles/create', [AdminController::class, 'adminArticleCreateRequest'])->name('adminArticleCreateRequest');
+Route::get('/admin/articles/edit/{slug}', [AdminController::class, 'adminArticleEdit'])->name('adminArticleEdit');
+Route::patch('/admin/articles/edit/{slug}', [AdminController::class, 'adminArticleEditRequest'])->name('adminArticleEditRequest');
+Route::delete('/admin/articles/delete/{slug}', [AdminController::class, 'adminArticleDeleteRequest'])->name('adminArticleDeleteRequest');
 
 Route::get('/admin/models', [AdminController::class, 'adminModels'])->name('adminModels');
 Route::get('/admin/models/create', [AdminController::class, 'adminModelCreate'])->name('adminModelCreate');
