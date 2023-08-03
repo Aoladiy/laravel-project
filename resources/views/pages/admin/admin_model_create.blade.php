@@ -100,6 +100,11 @@
                     <x-forms.selections.select-classes name="class_id" />
                 </x-forms.input>
 
+                <x-forms.input for="category_ids[]" name="category_ids[]">
+                    <x-slot:label>Категория(и)</x-slot:label>
+                    <x-forms.selections.select-categories name="category_ids[]" />
+                </x-forms.input>
+
                 <x-forms.row>
                     <x-forms.submit-button>
                         Сохранить

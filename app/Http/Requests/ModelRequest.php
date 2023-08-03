@@ -34,6 +34,7 @@ class ModelRequest extends FormRequest
             'engine_id' => 'required|numeric',
             'carcase_id' => 'required|numeric',
             'class_id' => 'required|numeric',
+            'category_ids' => 'required',
         ];
     }
 }

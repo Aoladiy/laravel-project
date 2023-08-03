@@ -105,9 +105,25 @@ class AdminController extends Controller
 
     public function adminModelCreateRequest(ModelRequest $request, CarsRepositoryContract $carsRepositoryContract): RedirectResponse
     {
-        $data = $request->only(['name', 'body', 'price', 'old_price', 'salon', 'kpp', 'year', 'color', 'is_new', 'engine_id', 'carcase_id', 'class_id']);
+        $data = $request->only([
+            'name',
+            'body',
+            'price',
+            'old_price',
+            'salon',
+            'kpp',
+            'year',
+            'color',
+            'is_new',
+            'engine_id',
+            'carcase_id',
+            'class_id',
+            'category_ids',
+        ]);
         try {
-            $carsRepositoryContract->create($data);
+            $model = $carsRepositoryContract->create($data);
+            $categories = $request->get('category_ids');
+            $model->categories()->sync($categories);
             return back()->with('success_message', ['Запись успешно создана']);
         } catch (\Exception $exception) {
             return back()->with('error_message', ['Запись не создана']);
@@ -122,9 +138,25 @@ class AdminController extends Controller
 
     public function adminModelEditRequest(ModelRequest $request, $id, CarsRepositoryContract $carsRepositoryContract): RedirectResponse
     {
-        $data = $request->only(['name', 'body', 'price', 'old_price', 'salon', 'kpp', 'year', 'color', 'is_new', 'engine_id', 'carcase_id', 'class_id']);
+        $data = $request->only([
+            'name',
+            'body',
+            'price',
+            'old_price',
+            'salon',
+            'kpp',
+            'year',
+            'color',
+            'is_new',
+            'engine_id',
+            'carcase_id',
+            'class_id',
+            'category_ids',
+        ]);
         try {
-            $carsRepositoryContract->update($id, $data);
+            $model = $carsRepositoryContract->update($id, $data);
+            $categories = $request->get('category_ids');
+            $model->categories()->sync($categories);
             return back()->with('success_message', ['Запись успешно изменена']);
         } catch (\Exception $exception) {
             return back()->with('error_message', ['Запись не изменена']);
@@ -137,7 +169,8 @@ class AdminController extends Controller
             $carsRepositoryContract->delete($id);
             return back()->with('success_message', ['Запись с id=' . $id . ' успешно удалена']);
         } catch (\Exception $exception) {
-            return back()->with('error_message', ['Запись с id=' . $id . ' не удалена']);
+            return back()->with('error_message', [$exception->getMessage()]);
+//            return back()->with('error_message', ['Запись с id=' . $id . ' не удалена']);
         }
     }
 }
