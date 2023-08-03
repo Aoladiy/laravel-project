@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Contracts\HasTagsContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
-class Car extends Model
+class Car extends Model implements HasTagsContract
 {
     use HasFactory;
 

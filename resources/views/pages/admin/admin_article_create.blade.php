@@ -39,6 +39,13 @@
                            placeholder="">
                 </x-forms.input>
 
+                <x-forms.input for="tags" name="tags">
+                    <x-slot:label>Теги <u><i>через запятую</i></u></x-slot:label>
+                    <input id="tags" type="text" name="tags" value="{{old('tags')}}"
+                           class=" mt-1 block w-full rounded-md @error('tags') border-red-600 @else border-gray-300 @enderror shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           placeholder="">
+                </x-forms.input>
+
                 <x-forms.checkbox name="published_at">
                     <x-slot:label>Опубликован</x-slot:label>
                     <input
