@@ -40,15 +40,7 @@ class AdminController extends Controller
                                               TagsSynchronizerServiceContract $tagsSynchronizerServiceContract,
     ): RedirectResponse
     {
-        $data = $request->only(['title', 'description', 'body', 'published_at', 'tags']);
-
-        if (isset($data['published_at'])) {
-            $data['published_at'] = date('Y-m-d H:i:s');
-        } else {
-            $data['published_at'] = null;
-        }
-
-        $data['slug'] = Str::slug($data['title']);
+        $data = $request->only(['slug', 'title', 'description', 'body', 'published_at', 'tags']);
 
         try {
             $articlesRepositoryContract->findBySlug($data['slug']);

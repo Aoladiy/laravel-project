@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\Article;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class ArticleRequest extends FormRequest
 {
@@ -27,5 +28,20 @@ class ArticleRequest extends FormRequest
             'description' => 'required|max:255',
             'body' => 'required',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $publishedAt = $this->get('published_at');
+        if (!strtotime($publishedAt)) {
+            if (isset($publishedAt)) {
+                $publishedAt = date('Y-m-d H:i:s');
+            } else {
+                $publishedAt = null;
+            }
+        }
+        $this->merge(['published_at' => $publishedAt]);
+
+        $this->merge(['slug' => Str::slug($this->get('title'))]);
     }
 }
