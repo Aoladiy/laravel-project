@@ -42,7 +42,9 @@ class CarsRepository implements CarsRepositoryContract
             ->when($catalogFilterDTO->getOrderPrice() !== null, fn($query) => $query
                 ->orderBy('price', $catalogFilterDTO->getOrderPrice() === 'desc' ? 'desc' : 'asc'))
             ->when($catalogFilterDTO->getOrderModel() !== null, fn($query) => $query
-                ->orderBy('name', $catalogFilterDTO->getOrderModel() === 'desc' ? 'desc' : 'asc'));
+                ->orderBy('name', $catalogFilterDTO->getOrderModel() === 'desc' ? 'desc' : 'asc'))
+            ->when($catalogFilterDTO->getCategory() !== null, fn ($query) => $query->whereHas('categories', fn
+            ($query) => $query->whereIn('id', $catalogFilterDTO->getAllCategories())));
     }
 
     public function getModelsOfTheWeek(): Collection

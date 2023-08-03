@@ -15,16 +15,42 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'Легковые'],
-            ['name' => 'Внедорожники'],
+            [
+                'name' => 'легковые',
+                'children' => [
+                    ['name' => 'Седаны', 'sort' => 1],
+                    ['name' => 'Хетчбеки', 'sort' => 1],
+                    ['name' => 'Универсалы', 'sort' => 1],
+                    ['name' => 'Купе', 'sort' => 1],
+                    ['name' => 'Родстеры', 'sort' => 1],
+                ],
+            ],
+            [
+                'name' => 'Внедорожники',
+                'children' => [
+                    ['name' => 'Рамные', 'sort' => 1],
+                    ['name' => 'Пикапы', 'sort' => 1],
+                    ['name' => 'Кроссоверы', 'sort' => 1],
+                ],
+            ],
             ['name' => 'Раритетные'],
             ['name' => 'Распродажа'],
             ['name' => 'Новинки'],
         ];
-        foreach ($categories as $category) {
-            $category['slug'] = Str::slug($category['name']);
-            Category::factory()->create($category);
+        foreach ($this->categoriesSlug($categories) as $category) {
+            Category::create($category);
         }
+    }
 
+    private function categoriesSlug(array $categories): array
+    {
+        array_walk($categories, function (&$category) {
+            if (isset($category['children'])) {
+                $category['children'] =
+                    $this->categoriesSlug($category['children']);
+            }
+            $category['slug'] = Str::slug($category['name']);
+        });
+        return $categories;
     }
 }

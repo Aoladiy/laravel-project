@@ -58,7 +58,12 @@
                     </button>
                 </form>
                 {{--                @yield('nav-menu')--}}
-                {{ $navigationMenu ?? '' }}
+                @isset($navigationMenu)
+                    {{ $navigationMenu }}
+                @else
+                    <x-panels.category-menu />
+                @endisset
+
 
             </div>
         </div>

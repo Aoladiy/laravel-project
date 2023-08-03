@@ -16,7 +16,7 @@
     </x-slot:userMenu>
     <x-slot:navigationMenu>
         {{--        @include('components.panels.category_menu')--}}
-        <x-panels.category_menu />
+        <x-category_menu />
     </x-slot:navigationMenu>
     <x-slot:footerInfo>
 {{--        @include('panels.footer_information')--}}

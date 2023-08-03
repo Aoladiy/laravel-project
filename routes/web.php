@@ -28,7 +28,7 @@ Route::get('/articles', [PagesController::class, 'articles'])->name('articles');
 Route::get('/articles/{slug}', [PagesController::class, 'article'])->name('article');
 
 
-Route::get('/catalog', [CatalogController::class, 'catalog'])->name('catalog');
+Route::get('/catalog/{slug?}', [CatalogController::class, 'catalog'])->name('catalog');
 Route::get('/products/{id}', [CatalogController::class, 'product'])->name('product');
 
 

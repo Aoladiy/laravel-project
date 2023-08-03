@@ -14,7 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->integer('sort');
+            $table->integer('sort')->default(0);
+            $table->nestedSet();
             $table->timestamps();
         });
 
