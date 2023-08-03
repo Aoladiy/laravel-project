@@ -45,9 +45,9 @@ class CarsRepository implements CarsRepositoryContract
                 ->orderBy('name', $catalogFilterDTO->getOrderModel() === 'desc' ? 'desc' : 'asc'));
     }
 
-    public function getModelsOfTheWeek(): Collection
+    public function getModelsOfTheWeek(int $amount): Collection
     {
-        return $this->getModel()->limit(4)->where('is_new', '=', true)->get();
+        return $this->getModel()->limit($amount)->where('is_new', '=', true)->get();
     }
 
     public function findAll(): Collection

@@ -21,7 +21,7 @@ interface CarsRepositoryContract
 
     public function getCatalog(CatalogFilterDTO $catalogFilterDTO, array $fields): Collection;
 
-    public function getModelsOfTheWeek(): Collection;
+    public function getModelsOfTheWeek(int $amount): Collection;
 
     public function findAll(): Collection;
 

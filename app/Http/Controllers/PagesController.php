@@ -16,7 +16,7 @@ class PagesController extends Controller
     public function home(CarsRepositoryContract $carsRepositoryContract, ArticlesRepositoryContract $articlesRepositoryContract): View
     {
         $articles = $articlesRepositoryContract->getNews();
-        $models = $carsRepositoryContract->getModelsOfTheWeek();
+        $models = $carsRepositoryContract->getModelsOfTheWeek(4);
         return view('pages.homepage', ['articles' => $articles, 'models' => $models]);
     }
 
