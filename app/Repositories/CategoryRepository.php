@@ -20,6 +20,12 @@ class CategoryRepository implements CategoriesRepositoryContract
         return $this->getCategory()->where('slug', $slug)->first();
     }
 
+    public function getCategoriesTree(): \Kalnoy\Nestedset\Collection
+    {
+        return $this->getCategory()->withDepth()->having('depth', '<=',
+            1)->orderBy('sort')->get()->toTree();
+    }
+
     /**
      * @return Category
      */
