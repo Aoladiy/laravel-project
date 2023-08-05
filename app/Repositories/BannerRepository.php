@@ -14,7 +14,7 @@ class BannerRepository implements BannersRepositoryContract
 
     public function getRandomBanners(int $amount): Collection
     {
-        return $this->getBanner()->get()->random($amount);
+        return $this->getBanner()->inRandomOrder()->limit($amount)->get();
     }
 
     /**

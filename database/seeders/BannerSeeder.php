@@ -14,16 +14,16 @@ class BannerSeeder extends Seeder
      */
     public function run(ImagesServiceContract $imagesServiceContract): void
     {
-        foreach ($this->banners() as $banner) {
-            if (!empty($banner['image'])) {
-                $image =
-                    $imagesServiceContract->createImage(resource_path($banner['image']));
-                $banner['image_id'] = $image->id;
-            }
-            unset($banner['image']);
-            Banner::factory()->create($banner);
-        }
-//        Banner::factory()->count(12)->create();
+//        foreach ($this->banners() as $banner) {
+//            if (!empty($banner['image'])) {
+//                $image =
+//                    $imagesServiceContract->createImage(resource_path($banner['image']));
+//                $banner['image_id'] = $image->id;
+//            }
+//            unset($banner['image']);
+//            Banner::factory()->create($banner);
+//        }
+        Banner::factory()->count(12)->create();
         }
 
     public function banners(): array
