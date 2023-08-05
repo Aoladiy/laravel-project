@@ -21,7 +21,6 @@
     </thead>
     <tbody>
     @foreach($models as $model)
-{{--        @include('panels.articles.article_row', ['article' => $article])--}}
         <x-panels.models.model_row :model="$model" />
     @endforeach
     </tbody>
