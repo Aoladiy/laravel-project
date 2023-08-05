@@ -1,5 +1,4 @@
 <aside class="hidden sm:block col-span-1 border-r p-4">
-
     <nav>
         <ul class="text-sm">
             <li>
@@ -15,5 +14,4 @@
             </li>
         </ul>
     </nav>
-
 </aside>
