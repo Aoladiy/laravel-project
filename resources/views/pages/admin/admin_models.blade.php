@@ -14,7 +14,7 @@
     @endif
     <section class="pb-4">
         <div class="my-6">
-            <a href="{{route('adminModelCreate')}}"
+            <a href="{{route('modelCreate')}}"
                class="inline-block bg-orange hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded"
                title="Добавить модель">
                     <span class="flex items-center space-x-2">

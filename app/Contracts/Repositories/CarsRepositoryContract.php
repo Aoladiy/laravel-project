@@ -12,10 +12,11 @@ interface CarsRepositoryContract
 {
     public function paginateForCatalog(
         CatalogFilterDTO $catalogFilterDTO,
-        array $fields = ['*'],
-        int $perPage = 10,
-        int $page = 1,
-        string $pageName = 'page',
+        array            $fields = ['*'],
+        int              $perPage = 10,
+        int              $page = 1,
+        string           $pageName = 'page',
+        array            $relations = [],
     ): LengthAwarePaginator;
 
 

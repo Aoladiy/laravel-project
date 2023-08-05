@@ -21,9 +21,10 @@ class CarsRepository implements CarsRepositoryContract
         int              $perPage = 16,
         int              $page = 1,
         string           $pageName = 'page',
+        array            $relations = [],
     ): LengthAwarePaginator
     {
-        return $this->catalogQuery($catalogFilterDTO)->paginate($perPage, $fields, $pageName, $page);
+        return $this->catalogQuery($catalogFilterDTO)->with($relations)->paginate($perPage, $fields, $pageName, $page);
     }
 
     public function getCatalog(CatalogFilterDTO $catalogFilterDTO,
@@ -43,8 +44,7 @@ class CarsRepository implements CarsRepositoryContract
                 ->orderBy('price', $catalogFilterDTO->getOrderPrice() === 'desc' ? 'desc' : 'asc'))
             ->when($catalogFilterDTO->getOrderModel() !== null, fn($query) => $query
                 ->orderBy('name', $catalogFilterDTO->getOrderModel() === 'desc' ? 'desc' : 'asc'))
-            ->when($catalogFilterDTO->getCategory() !== null, fn ($query) => $query->whereHas('categories', fn
-            ($query) => $query->whereIn('id', $catalogFilterDTO->getAllCategories())));
+            ->when($catalogFilterDTO->getCategory() !== null, fn($query) => $query->whereHas('categories', fn($query) => $query->whereIn('id', $catalogFilterDTO->getAllCategories())));
     }
 
     public function getModelsOfTheWeek(): Collection

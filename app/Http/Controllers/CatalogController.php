@@ -33,8 +33,7 @@ class CatalogController extends Controller
             ->setCategory($category)
             ->setAllCategories($allCategories);
         $currentPage = $request->get('page');
-//        $models = $carsRepositoryContract->paginateForCatalog($catalogFilterDTO, page: $currentPage ?? 1);
-        $models = $carsRepositoryContract->paginateForCatalog($catalogFilterDTO, page: $currentPage ?? 1);
+        $models = $carsRepositoryContract->paginateForCatalog($catalogFilterDTO, page: $currentPage ?? 1, relations: ['image']);
         return view('pages.catalog', ['models' => $models, 'currentCategory' => $category]);
     }
 

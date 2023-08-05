@@ -9,7 +9,7 @@
 >
     <div class="space-y-4">
 
-        <img src="/assets/pictures/car_new_stinger.png" alt="" title="">
+        <img src="{{$article->imageUrl}}" alt="" title="">
 
         <x-panels.tags :tags="$article->tags" />
 

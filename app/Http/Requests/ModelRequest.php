@@ -26,6 +26,7 @@ class ModelRequest extends FormRequest
             'body' => 'required|string',
             'price' => 'required|numeric',
             'old_price' => 'sometimes|nullable|numeric',
+            'image' => 'sometimes|nullable|image',
             'salon' => 'sometimes|nullable|string',
             'kpp' => 'sometimes|nullable|string',
             'year' => 'sometimes|nullable|numeric|gte:0',

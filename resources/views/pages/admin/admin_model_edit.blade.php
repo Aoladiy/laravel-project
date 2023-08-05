@@ -14,7 +14,7 @@
         {{--            @include('components.panels.messages.success', ['message' => session('success_message', [])])--}}
         <x-panels.messages.success message="{{session('success_message', [])[0]}}"/>
     @endif
-    <form action="{{route('adminModelEditRequest', $model)}}" method="post">
+    <form action="{{route('modelEditRequest', $model)}}" method="post" enctype="multipart/form-data">
         @method('patch')
         @csrf
         <div class="mt-8 max-w-md">
@@ -44,6 +44,13 @@
                     <x-slot:label>Цена без скидки</x-slot:label>
                     <input id="old_price" type="number" name="old_price" value="{{$model->old_price}}"
                            class=" mt-1 block w-full rounded-md @error('old_price') border-red-600 @else border-gray-300 @enderror shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           placeholder="">
+                </x-forms.input>
+
+                <x-forms.input for="image" name="image">
+                    <x-slot:label>Основное изображение модели</x-slot:label>
+                    <input id="image" type="file" name="image" value="{{$model->imageUrl}}"
+                           class=" mt-1 block w-full rounded-md @error('image') border-red-600 @else border-gray-300 @enderror shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                            placeholder="">
                 </x-forms.input>
 
@@ -110,7 +117,7 @@
                     <x-forms.submit-button>
                         Сохранить
                     </x-forms.submit-button>
-                    <x-forms.cancel-button href="{{ route('adminModelEdit', $model) }}">
+                    <x-forms.cancel-button href="{{ route('modelEdit', $model) }}">
                         Отменить
                     </x-forms.cancel-button>
                 </x-forms.row>
