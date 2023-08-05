@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Contracts\Services\Article\ArticleCreateServiceContract;
+use App\Contracts\Services\Article\ArticleEditServiceContract;
 use App\Contracts\Services\TagsSynchronizerServiceContract;
+use App\Services\Article\ArticleCreateService;
+use App\Services\Article\ArticleEditService;
 use App\Services\TagsSynchronizerService;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
@@ -31,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ImagesServiceContract::class, function () {
             return $this->app->make(ImagesService::class, ['disk' => 'public']);
         });
+        $this->app->singleton(ArticleEditServiceContract::class,
+            ArticleEditService::class);
+        $this->app->singleton(ArticleCreateServiceContract::class,
+            ArticleCreateService::class);
     }
 
     /**
