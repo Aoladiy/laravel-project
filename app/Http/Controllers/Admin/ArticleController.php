@@ -27,15 +27,15 @@ class ArticleController extends Controller
         return view('pages.admin.admin_article_create');
     }
 
-    public function articleCreateRequest(ArticleRequest                  $request,
-                                         TagsRequest                     $tagsRequest,
-                                         ArticleCreateServiceContract    $articleCreateServiceContract
+    public function articleCreateRequest(ArticleRequest               $request,
+                                         TagsRequest                  $tagsRequest,
+                                         ArticleCreateServiceContract $articleCreateServiceContract
     ): RedirectResponse
     {
         $data = $request->only(['slug', 'title', 'description', 'body', 'image', 'published_at', 'tags']);
         $tags = $tagsRequest->get('tags');
         try {
-            if (!$articleCreateServiceContract->create($data, $tags)) {
+            if ($articleCreateServiceContract->create($data, $tags) === false) {
                 return back()->with('error_message', ['Запись с таким slug уже существует']);
             }
             return back()->with('success_message', ['Запись успешно создана']);
@@ -50,11 +50,11 @@ class ArticleController extends Controller
         return view('pages.admin.admin_article_edit', ['article' => $article]);
     }
 
-    public function articleEditRequest(ArticleRequest                  $request,
-                                       TagsRequest                     $tagsRequest,
-                                                                       $slug,
-                                       ArticlesRepositoryContract      $articlesRepositoryContract,
-                                       ArticleEditServiceContract      $articleEditServiceContract,
+    public function articleEditRequest(ArticleRequest             $request,
+                                       TagsRequest                $tagsRequest,
+                                                                  $slug,
+                                       ArticlesRepositoryContract $articlesRepositoryContract,
+                                       ArticleEditServiceContract $articleEditServiceContract,
     ): RedirectResponse
     {
         $data = $request->only(['title', 'description', 'body', 'image', 'published_at', 'tags']);
@@ -75,7 +75,9 @@ class ArticleController extends Controller
     {
         try {
             $article = $articlesRepositoryContract->findBySlug($slug);
-            $imagesServiceContract->deleteImage($article->image_id);
+            if (isset($article->image_id)) {
+                $imagesServiceContract->deleteImage($article->image_id);
+            }
             $id = $articlesRepositoryContract->findBySlug($slug)->id;
             $articlesRepositoryContract->delete($id);
             return back()->with('success_message', ['Запись с slug=' . $slug . ' успешно удалена']);
