@@ -7,12 +7,20 @@ use App\Models\Image;
 
 class ImagesRepository implements ImagesRepositoryContract
 {
+    use FlushesCache;
+
+    protected function cacheTags(): array
+    {
+        return ['images'];
+    }
+
     public function __construct(private readonly Image $model)
     {
     }
 
     public function create(string $diskPath): Image
     {
+        $this->flushCache();
         return $this->getModel()->create(['path' => $diskPath]);
     }
 
@@ -28,6 +36,7 @@ class ImagesRepository implements ImagesRepositoryContract
 
     public function delete(int $id)
     {
+        $this->flushCache();
         return $this->getModel()->where('id', $id)->delete();
     }
 

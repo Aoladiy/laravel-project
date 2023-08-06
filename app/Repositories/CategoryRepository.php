@@ -8,22 +8,52 @@ use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryRepository implements CategoriesRepositoryContract
 {
+    use FlushesCache;
+
+    protected function cacheTags(): array
+    {
+        return ['categories'];
+    }
+
     public function __construct(private readonly Category $category)
     {
     }
 
-    public function findBySlug($slug): Category|null
+    public function findBySlug($slug, array $relations = []): Category|bool
     {
-        return $this->getCategory()->where('slug', $slug)->first();
+        return Cache::tags($this->cacheTags())->remember(sprintf("CategoryBySlug|%s|%s", $slug, implode('|', $relations)),
+            3600,
+            fn() => $this->getCategory()->where('slug', $slug)->when($relations, fn($query) => $query->with($relations))->first() ?? false
+        );
     }
 
-    public function getCategoriesTree(): \Kalnoy\Nestedset\Collection
+    public function getCurrentCategoryWithAncestors($slug): Category
     {
-        return $this->getCategory()->withDepth()->having('depth', '<=',
-            1)->orderBy('sort')->get()->toTree();
+        return Cache::tags($this->cacheTags())->remember(sprintf("currentCategoryWithAncestors|%s", $slug),
+            3600,
+            fn() => $this->findBySlug($slug)->load('ancestors')
+        );
+    }
+
+    public function getCategoryDescendantsIds(Category $category): array
+    {
+        return Cache::tags($this->cacheTags())->remember(sprintf("CategoryDescendantsIds|%s", $category->id),
+            3600,
+            fn()=>$category->descendants->pluck('id')->push($category->id)->all()
+        );
+    }
+
+    public function getCategoriesTree(?int $maxDepth = null): \Kalnoy\Nestedset\Collection
+    {
+        return Cache::tags($this->cacheTags())->remember("categoriesTree|$maxDepth",
+            3600,
+            fn() => $this->getCategory()->withDepth()->having('depth', '<=',
+                $maxDepth)->orderBy('sort')->get()->toTree()
+        );
     }
 
     /**

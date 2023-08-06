@@ -21,8 +21,8 @@ class PagesController extends Controller
     ): View
     {
         $banners = $bannersRepositoryContract->getRandomBanners(3);
-        $articles = $articlesRepositoryContract->getNews();
-        $models = $carsRepositoryContract->getModelsOfTheWeek();
+        $articles = $articlesRepositoryContract->getNews(3);
+        $models = $carsRepositoryContract->getModelsOfTheWeek(4);
         return view('pages.homepage', ['articles' => $articles, 'models' => $models, 'banners' => $banners]);
     }
 

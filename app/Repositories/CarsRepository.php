@@ -8,9 +8,17 @@ use App\Models\Car;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class CarsRepository implements CarsRepositoryContract
 {
+    use FlushesCache;
+
+    public function cacheTags(): array
+    {
+        return ['cars'];
+    }
+
     public function __construct(private readonly Car $model)
     {
     }
@@ -24,7 +32,17 @@ class CarsRepository implements CarsRepositoryContract
         array            $relations = [],
     ): LengthAwarePaginator
     {
-        return $this->catalogQuery($catalogFilterDTO)->with($relations)->paginate($perPage, $fields, $pageName, $page);
+        return Cache::tags(['cars', 'images'])->remember(sprintf("paginateForCatalog|%s", serialize([
+            'filter' => $catalogFilterDTO,
+            'fields' => $fields,
+            'perPage' => $perPage,
+            'page' => $page,
+            'pageName' => $pageName,
+            'relations' => $relations
+        ])),
+        3600,
+            fn()=>$this->catalogQuery($catalogFilterDTO)->with($relations)->paginate($perPage, $fields, $pageName, $page)
+        );
     }
 
     public function getCatalog(CatalogFilterDTO $catalogFilterDTO,
@@ -47,9 +65,13 @@ class CarsRepository implements CarsRepositoryContract
             ->when($catalogFilterDTO->getCategory() !== null, fn($query) => $query->whereHas('categories', fn($query) => $query->whereIn('id', $catalogFilterDTO->getAllCategories())));
     }
 
-    public function getModelsOfTheWeek(): Collection
+    public function getModelsOfTheWeek(int $amount): Collection
     {
-        return $this->getModel()->limit(4)->where('is_new', '=', true)->get();
+        return Cache::tags(['cars', 'images'])->remember(
+            "mainPageCars|$amount",
+            3600,
+            fn() => $this->getModel()->with(['image'])->limit($amount)->where('is_new', '=', true)->get()
+        );
     }
 
     public function findAll(): Collection
@@ -57,18 +79,23 @@ class CarsRepository implements CarsRepositoryContract
         return $this->getModel()->get();
     }
 
-    public function findById(int $id): Car
+    public function findById(int $id, array $relations = []): Car
     {
-        return $this->getModel()->findOrFail($id);
+        return Cache::tags(['cars', 'images', 'tags', 'carCarcases', 'carEngines', 'carClasses'])->remember(sprintf("findCarById|%s|%s", $id, implode('|', $relations)),
+            3600,
+            fn() => $this->getModel()->when($relations, fn($query) => $query->with($relations))->findOrFail($id)
+        );
     }
 
     public function create(array $fields): Car
     {
+        $this->flushCache();
         return $this->getModel()->create($fields);
     }
 
     public function update(int $id, array $fields): Car
     {
+        $this->flushCache();
         $model = $this->findById($id);
         $model->update($fields);
         return $model;
@@ -76,6 +103,7 @@ class CarsRepository implements CarsRepositoryContract
 
     public function delete(int $id): void
     {
+        $this->flushCache();
         $this->findById($id)->delete();
     }
 
