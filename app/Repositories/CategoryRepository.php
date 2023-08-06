@@ -25,7 +25,7 @@ class CategoryRepository implements CategoriesRepositoryContract
 
     public function findBySlug($slug, array $relations = []): Category|bool
     {
-        return Cache::tags($this->cacheTags())->remember(sprintf("CategoryBySlug|%s|%s", $slug, implode('|', $relations)),
+        return Cache::tags(['categories', 'cars'])->remember(sprintf("CategoryBySlug|%s|%s", $slug, implode('|', $relations)),
             3600,
             fn() => $this->getCategory()->where('slug', $slug)->when($relations, fn($query) => $query->with($relations))->first() ?? false
         );
@@ -33,7 +33,7 @@ class CategoryRepository implements CategoriesRepositoryContract
 
     public function getCurrentCategoryWithAncestors($slug): Category
     {
-        return Cache::tags($this->cacheTags())->remember(sprintf("currentCategoryWithAncestors|%s", $slug),
+        return Cache::tags(['categories', 'cars'])->remember(sprintf("currentCategoryWithAncestors|%s", $slug),
             3600,
             fn() => $this->findBySlug($slug)->load('ancestors')
         );
@@ -41,7 +41,7 @@ class CategoryRepository implements CategoriesRepositoryContract
 
     public function getCategoryDescendantsIds(Category $category): array
     {
-        return Cache::tags($this->cacheTags())->remember(sprintf("CategoryDescendantsIds|%s", $category->id),
+        return Cache::tags(['categories', 'cars'])->remember(sprintf("CategoryDescendantsIds|%s", $category->id),
             3600,
             fn()=>$category->descendants->pluck('id')->push($category->id)->all()
         );
@@ -49,7 +49,7 @@ class CategoryRepository implements CategoriesRepositoryContract
 
     public function getCategoriesTree(?int $maxDepth = null): \Kalnoy\Nestedset\Collection
     {
-        return Cache::tags($this->cacheTags())->remember("categoriesTree|$maxDepth",
+        return Cache::tags(['categories', 'cars'])->remember("categoriesTree|$maxDepth",
             3600,
             fn() => $this->getCategory()->withDepth()->having('depth', '<=',
                 $maxDepth)->orderBy('sort')->get()->toTree()
