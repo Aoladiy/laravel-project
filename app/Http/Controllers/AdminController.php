@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\ArticlesRepositoryContract;
+use App\Contracts\Repositories\CarsRepositoryContract;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\ModelRequest;
 use App\Models\Article;
@@ -18,9 +20,9 @@ class AdminController extends Controller
         return view('pages.admin.admin');
     }
 
-    public function adminArticles(): View
+    public function adminArticles(ArticlesRepositoryContract $articlesRepositoryContract): View
     {
-        $articles = Article::get();
+        $articles = $articlesRepositoryContract->findAll();
         return view('pages.admin.admin_articles', ['articles' => $articles]);
     }
 
@@ -29,7 +31,7 @@ class AdminController extends Controller
         return view('pages.admin.admin_article_create');
     }
 
-    public function adminArticleCreateRequest(ArticleRequest $request): RedirectResponse
+    public function adminArticleCreateRequest(ArticleRequest $request, ArticlesRepositoryContract $articlesRepositoryContract): RedirectResponse
     {
         $data = $request->only(['title', 'description', 'body', 'published_at']);
 
@@ -41,21 +43,23 @@ class AdminController extends Controller
 
         $data['slug'] = Str::slug($data['title']);
 
-        $isSlugExists = Article::where('slug', '=', $data['slug'])->pluck('slug')->all();
-        if ($isSlugExists) {
+        try {
+            $articlesRepositoryContract->findBySlug($data['slug']);
             return back()->with('error_message', ['Запись с таким slug уже существует']);
+        } catch (\Exception $exception)
+        {
         }
 
         try {
-            Article::create($data);
+            $articlesRepositoryContract->create($data);
             return back()->with('success_message', ['Запись успешно создана']);
         } catch (\Exception $exception) {
             return back()->with('error_message', ['Запись не создана']);
         }
     }
-    public function adminModels(): View
+    public function adminModels(CarsRepositoryContract $carsRepositoryContract): View
     {
-        $models = Car::get();
+        $models = $carsRepositoryContract->findAll();
         return view('pages.admin.admin_models', ['models' => $models]);
     }
 
@@ -64,38 +68,38 @@ class AdminController extends Controller
         return view('pages.admin.admin_model_create');
     }
 
-    public function adminModelCreateRequest(ModelRequest $request): RedirectResponse
+    public function adminModelCreateRequest(ModelRequest $request, CarsRepositoryContract $carsRepositoryContract): RedirectResponse
     {
         $data = $request->only(['name', 'body', 'price', 'old_price', 'salon', 'kpp', 'year', 'color', 'is_new', 'engine_id', 'carcase_id', 'class_id']);
         try {
-            Car::create($data);
+            $carsRepositoryContract->create($data);
             return back()->with('success_message', ['Запись успешно создана']);
         } catch (\Exception $exception) {
             return back()->with('error_message', ['Запись не создана']);
         }
     }
 
-    public function adminModelEdit(Car $model): View
+    public function adminModelEdit($id, CarsRepositoryContract $carsRepositoryContract): View
     {
+        $model = $carsRepositoryContract->findById($id);
         return view('pages.admin.admin_model_edit', ['model' => $model]);
     }
 
-    public function adminModelEditRequest(ModelRequest $request, Car $model): RedirectResponse
+    public function adminModelEditRequest(ModelRequest $request, $id, CarsRepositoryContract $carsRepositoryContract): RedirectResponse
     {
         $data = $request->only(['name', 'body', 'price', 'old_price', 'salon', 'kpp', 'year', 'color', 'is_new', 'engine_id', 'carcase_id', 'class_id']);
         try {
-            $model->update($data);
+            $carsRepositoryContract->update($id, $data);
             return back()->with('success_message', ['Запись успешно изменена']);
         } catch (\Exception $exception) {
             return back()->with('error_message', ['Запись не изменена']);
         }
     }
 
-    public function adminModelDeleteRequest(Car $model): RedirectResponse
+    public function adminModelDeleteRequest($id, CarsRepositoryContract $carsRepositoryContract): RedirectResponse
     {
         try {
-            $id = $model->id;
-            $model->delete();
+            $carsRepositoryContract->delete($id);
             return back()->with('success_message', ['Запись с id=' . $id . ' успешно удалена']);
         } catch (\Exception $exception) {
             return back()->with('error_message', ['Запись с id=' . $id . ' не удалена']);

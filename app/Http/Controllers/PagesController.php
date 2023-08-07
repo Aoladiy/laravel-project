@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\ArticlesRepositoryContract;
+use App\Contracts\Repositories\CarsRepositoryContract;
 use App\Models\Article;
 use App\Models\Car;
 use App\Models\CarCarcase;
@@ -11,10 +13,10 @@ use Illuminate\View\View;
 
 class PagesController extends Controller
 {
-    public function home(): View
+    public function home(CarsRepositoryContract $carsRepositoryContract, ArticlesRepositoryContract $articlesRepositoryContract): View
     {
-        $articles = Article::limit(3)->latest('published_at')->get();
-        $models = Car::limit(4)->where('is_new', '=', true)->get();
+        $articles = $articlesRepositoryContract->getNews();
+        $models = $carsRepositoryContract->getModelsOfTheWeek(4);
         return view('pages.homepage', ['articles' => $articles, 'models' => $models]);
     }
 
@@ -38,9 +40,9 @@ class PagesController extends Controller
         return view('pages.finance');
     }
 
-    public function clients(): View
+    public function clients(CarsRepositoryContract $carsRepositoryContract): View
     {
-        $models = Car::get();
+        $models = $carsRepositoryContract->findAll();
         $avgPrice = $models->avg('price');
         $avgPriceWithDiscounts = $models->where('old_price', '<>', null)->avg('price');
         $maxPrice = $models->max('price');
@@ -83,14 +85,16 @@ class PagesController extends Controller
         ]);
     }
 
-    public function articles(): View
+    public function articles(ArticlesRepositoryContract $articlesRepositoryContract): View
     {
-        $articles = Article::where('published_at', '<>', null)->latest('published_at')->get();
+        $currentPage = request()->get('page');
+        $articles = $articlesRepositoryContract->getAllPublishedNews(page: $currentPage ?? 1);
         return view('pages.articles', ['articles' => $articles]);
     }
 
-    public function article(Article $article): View
+    public function article($slug, ArticlesRepositoryContract $articlesRepositoryContract): View
     {
+        $article = $articlesRepositoryContract->findBySlug($slug);
         return view('pages.article', ['article' => $article]);
     }
 }

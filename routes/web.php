@@ -25,11 +25,11 @@ Route::get('/finance', [PagesController::class, 'finance'])->name('finance');
 Route::get('/clients', [PagesController::class, 'clients'])->name('clients');
 
 Route::get('/articles', [PagesController::class, 'articles'])->name('articles');
-Route::get('/articles/{article:slug}', [PagesController::class, 'article'])->name('article');
+Route::get('/articles/{slug}', [PagesController::class, 'article'])->name('article');
 
 
 Route::get('/catalog', [CatalogController::class, 'catalog'])->name('catalog');
-Route::get('/products/{id:id}', [CatalogController::class, 'product'])->name('product');
+Route::get('/products/{id}', [CatalogController::class, 'product'])->name('product');
 
 
 Route::get('/admin', [AdminController::class, 'admin'])->name('admin');
@@ -41,6 +41,6 @@ Route::post('/admin/articles/create', [AdminController::class, 'adminArticleCrea
 Route::get('/admin/models', [AdminController::class, 'adminModels'])->name('adminModels');
 Route::get('/admin/models/create', [AdminController::class, 'adminModelCreate'])->name('adminModelCreate');
 Route::post('/admin/models/create', [AdminController::class, 'adminModelCreateRequest'])->name('adminModelCreateRequest');
-Route::get('/admin/models/edit/{model}', [AdminController::class, 'adminModelEdit'])->name('adminModelEdit');
-Route::patch('/admin/models/edit/{model}', [AdminController::class, 'adminModelEditRequest'])->name('adminModelEditRequest');
-Route::delete('/admin/models/delete/{model}', [AdminController::class, 'adminModelDeleteRequest'])->name('adminModelDeleteRequest');
+Route::get('/admin/models/edit/{id}', [AdminController::class, 'adminModelEdit'])->name('adminModelEdit');
+Route::patch('/admin/models/edit/{id}', [AdminController::class, 'adminModelEditRequest'])->name('adminModelEditRequest');
+Route::delete('/admin/models/delete/{id}', [AdminController::class, 'adminModelDeleteRequest'])->name('adminModelDeleteRequest');

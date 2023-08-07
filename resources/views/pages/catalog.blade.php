@@ -58,7 +58,9 @@
     {{--    @include('panels.catalog.cars', ['$models' => $models])--}}
     <x-catalog.cars :models="$models"/>
     <div class="text-center mt-4">
-        @include('components.panels.pagination_menu')
+{{--        @include('components.panels.pagination_menu')--}}
+{{--        {{$models->onEachSide(1)->links()}}--}}
+        <x-panels.pagination :paginator="$models" />
     </div>
     {{--@endsection--}}
 </x-layouts.inner>
