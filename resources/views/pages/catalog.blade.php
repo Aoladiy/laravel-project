@@ -1,7 +1,3 @@
-{{--@extends('layouts.inner')--}}
-{{--@section('page-title', 'Каталог')--}}
-{{--@section('title', 'Каталог')--}}
-{{--@section('content')--}}
 <x-layouts.inner
     page-title="Каталог"
     title="Каталог"
@@ -35,7 +31,7 @@
                               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                 </button>
-                <a href="{{route('catalog')}}"
+                <a href="{{route('catalog', ['slug' => $currentCategory->slug ?? null])}}"
                    class="inline-block bg-gray-400 hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor" stroke-width="2">
@@ -47,20 +43,14 @@
         <hr>
         <div class="flex space-x-2 items-center">
             <div class="font-bold">Сортировать по:</div>
-            {{--            @include('components.catalog.sort-button', ['name' => 'order_price', 'label' => 'Цене'])--}}
-            {{--            @include('components.catalog.sort-button', ['name' => 'order_model', 'label' => 'Модели'])--}}
             <x-catalog.sort-button name="order_price" current-value="{{request()->get('order_price') }}">Цене
             </x-catalog.sort-button>
             <x-catalog.sort-button name="order_model" current-value="{{request()->get('order_model') }}">Модели
             </x-catalog.sort-button>
         </div>
     </form>
-    {{--    @include('panels.catalog.cars', ['$models' => $models])--}}
     <x-catalog.cars :models="$models"/>
     <div class="text-center mt-4">
-{{--        @include('components.panels.pagination_menu')--}}
-{{--        {{$models->onEachSide(1)->links()}}--}}
-        <x-panels.pagination :paginator="$models" />
+        <x-panels.pagination :paginator="$models"/>
     </div>
-    {{--@endsection--}}
 </x-layouts.inner>

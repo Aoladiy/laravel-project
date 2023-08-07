@@ -8,7 +8,7 @@
     @if (session()->has('success_message'))
         <x-panels.messages.success message="{{session('success_message', [])[0]}}" />
     @endif
-    <form action="{{route('adminArticleEditRequest', ['slug' => $article->slug])}}" method="post">
+    <form action="{{route('articleEditRequest', ['slug' => $article->slug])}}" method="post" enctype="multipart/form-data">
         @method('patch')
         @csrf
         <div class="mt-8 max-w-md">
@@ -34,6 +34,13 @@
                            placeholder="">
                 </x-forms.input>
 
+                <x-forms.input for="image" name="image">
+                    <x-slot:label>Основное изображение модели</x-slot:label>
+                    <input id="image" type="file" name="image" value="{{$article->old_price}}"
+                           class=" mt-1 block w-full rounded-md @error('image') border-red-600 @else border-gray-300 @enderror shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           placeholder="">
+                </x-forms.input>
+
                 <x-forms.input for="tags" name="tags">
                     <x-slot:label>Теги <u><i>через запятую</i></u></x-slot:label>
                     <input id="tags" type="text" name="tags" value="{{old('tags', $article->tags->pluck('name')->implode(','))}}"
@@ -55,7 +62,7 @@
                     <x-forms.submit-button>
                         Сохранить
                     </x-forms.submit-button>
-                    <x-forms.cancel-button href="{{ route('adminArticleEdit', $article->slug) }}" >
+                    <x-forms.cancel-button href="{{ route('articleEdit', $article->slug) }}" >
                         Отменить
                     </x-forms.cancel-button>
                 </x-forms.row>

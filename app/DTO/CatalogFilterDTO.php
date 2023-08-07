@@ -2,6 +2,10 @@
 
 namespace App\DTO;
 
+use App\Models\Category;
+use Illuminate\Support\Collection;
+
+
 class CatalogFilterDTO
 {
     private ?string $name = null;
@@ -9,6 +13,9 @@ class CatalogFilterDTO
     private ?int $highest = null;
     private ?string $order_price = null;
     private ?string $order_model = null;
+
+    private ?Category $category;
+    private Collection|array|null $allCategories;
 
     /**
      * @return string|null
@@ -98,6 +105,41 @@ class CatalogFilterDTO
             $order_price = $order_price === 'desc' ? 'desc' : 'asc';
         }
         $this->order_price = $order_price;
+        return $this;
+    }
+
+    /**
+     * @return Collection|null|array
+     */
+    public function getAllCategories(): Collection|array|null
+    {
+        return $this->allCategories;
+    }
+
+    /**
+     * @param Collection|null|array $allCategories
+     * @return CatalogFilterDTO
+     */
+    public function setAllCategories(Collection|null|array $allCategories): CatalogFilterDTO
+    {
+        $this->allCategories = $allCategories;
+        return $this;
+    }
+
+    /**
+     * @return Category|null
+     */
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category|null $category
+     */
+    public function setCategory(?Category $category): CatalogFilterDTO
+    {
+        $this->category = $category;
         return $this;
     }
 }
