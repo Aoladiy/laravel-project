@@ -94,7 +94,7 @@ class ModelController extends Controller
                 $data['image_id'] = $image->id;
                 $oldImageId = $car->image_id;
             }
-            if (! empty($oldImageId)) {
+            if (!empty($oldImageId)) {
                 $imagesServiceContract->deleteImage($oldImageId);
             }
 
@@ -114,7 +114,9 @@ class ModelController extends Controller
     {
         try {
             $car = $carsRepositoryContract->findById($id);
-            $imagesServiceContract->deleteImage($car->image_id);
+            if (isset($car->image_id)) {
+                $imagesServiceContract->deleteImage($car->image_id);
+            }
             $carsRepositoryContract->delete($id);
             return back()->with('success_message', ['Запись с id=' . $id . ' успешно удалена']);
         } catch (\Exception $exception) {

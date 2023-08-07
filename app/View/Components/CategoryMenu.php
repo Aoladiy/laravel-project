@@ -22,7 +22,7 @@ class CategoryMenu extends Component
     {
         $this->categoriesRepositoryContract = $categoriesRepositoryContract;
         try {
-            $this->currentCategory = $categoriesRepositoryContract->findBySlug(Route::current()->slug)->load('ancestors');
+            $this->currentCategory = $categoriesRepositoryContract->getCurrentCategoryWithAncestors(Route::current()->slug);
         } catch (\Throwable $exception) {
             $this->currentCategory = null;
         }
@@ -33,7 +33,7 @@ class CategoryMenu extends Component
      */
     public function render(): View|string|Closure
     {
-        $categories = $this->categoriesRepositoryContract->getCategoriesTree();
+        $categories = $this->categoriesRepositoryContract->getCategoriesTree(1);
         return view('components.panels.category-menu', ['categories' =>
             $categories]);
     }

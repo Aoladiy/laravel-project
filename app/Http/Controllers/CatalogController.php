@@ -20,9 +20,9 @@ class CatalogController extends Controller
                             ): View
     {
         $allCategories = collect();
-        $category = $categoriesRepositoryContract->findBySlug($slug);
+        $category = $categoriesRepositoryContract->findBySlug($slug, ['cars']) === false ? null : $categoriesRepositoryContract->findBySlug($slug, ['cars']);
         if ($category) {
-            $allCategories = $category->descendants->pluck('id')->push($category->id)->all();
+            $allCategories = $categoriesRepositoryContract->getCategoryDescendantsIds($category);
         }
         $catalogFilterDTO = (new CatalogFilterDTO())
             ->setName($request->get('name'))
@@ -39,7 +39,7 @@ class CatalogController extends Controller
 
     public function product($id, CarsRepositoryContract $carsRepositoryContract): View
     {
-        $product = $carsRepositoryContract->findById($id);
+        $product = $carsRepositoryContract->findById($id, ['image', 'images', 'engine', 'carcase', 'class']);
         return view('pages.product', ['product' => $product]);
     }
 }
