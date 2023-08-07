@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Contracts\Services\Article\ArticleCreateServiceContract;
+use App\Contracts\Services\Article\ArticleDeleteServiceContract;
 use App\Contracts\Services\Article\ArticleEditServiceContract;
 use App\Contracts\Services\TagsSynchronizerServiceContract;
 use App\Services\Article\ArticleCreateService;
+use App\Services\Article\ArticleDeleteService;
 use App\Services\Article\ArticleEditService;
 use App\Services\TagsSynchronizerService;
 use Illuminate\Support\Facades\Config;
@@ -39,6 +41,8 @@ class AppServiceProvider extends ServiceProvider
             ArticleEditService::class);
         $this->app->singleton(ArticleCreateServiceContract::class,
             ArticleCreateService::class);
+        $this->app->singleton(ArticleDeleteServiceContract::class,
+            ArticleDeleteService::class);
     }
 
     /**

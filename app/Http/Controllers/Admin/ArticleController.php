@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Repositories\ArticlesRepositoryContract;
 use App\Contracts\Services\Article\ArticleCreateServiceContract;
+use App\Contracts\Services\Article\ArticleDeleteServiceContract;
 use App\Contracts\Services\Article\ArticleEditServiceContract;
 use App\Contracts\Services\ImagesServiceContract;
-use App\Contracts\Services\TagsSynchronizerServiceContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\TagsRequest;
-use App\Services\Article\ArticleEditService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -69,17 +68,11 @@ class ArticleController extends Controller
     }
 
     public function articleDeleteRequest($slug,
-                                         ArticlesRepositoryContract $articlesRepositoryContract,
-                                         ImagesServiceContract $imagesServiceContract
+                                         ArticleDeleteServiceContract $articleDeleteServiceContract
     ): RedirectResponse
     {
         try {
-            $article = $articlesRepositoryContract->findBySlug($slug);
-            if (isset($article->image_id)) {
-                $imagesServiceContract->deleteImage($article->image_id);
-            }
-            $id = $articlesRepositoryContract->findBySlug($slug)->id;
-            $articlesRepositoryContract->delete($id);
+            $articleDeleteServiceContract->delete($slug);
             return back()->with('success_message', ['Запись с slug=' . $slug . ' успешно удалена']);
         } catch (\Exception $exception) {
             return back()->with('error_message', ['Запись с slug=' . $slug . ' не удалена']);
