@@ -6,6 +6,7 @@ use App\Contracts\Repositories\ArticlesRepositoryContract;
 use App\Contracts\Services\Article\ArticleCreateServiceContract;
 use App\Contracts\Services\ImagesServiceContract;
 use App\Contracts\Services\TagsSynchronizerServiceContract;
+use Illuminate\Support\Facades\DB;
 
 class ArticleCreateService implements ArticleCreateServiceContract
 {
@@ -22,11 +23,13 @@ class ArticleCreateService implements ArticleCreateServiceContract
             return false;
         } catch (\Exception $exception) {
         }
-        if (!empty($data['image'])) {
-            $image = $this->imagesServiceContract->createImage($data['image']);
-            $data['image_id'] = $image->id;
-        }
-        $article = $this->articlesRepositoryContract->create($data);
-        $this->tagsSynchronizerServiceContract->sync($article, $tags);
+        DB::transaction(function () use ($data, $tags) {
+            if (!empty($data['image'])) {
+                $image = $this->imagesServiceContract->createImage($data['image']);
+                $data['image_id'] = $image->id;
+            }
+            $article = $this->articlesRepositoryContract->create($data);
+            $this->tagsSynchronizerServiceContract->sync($article, $tags);
+        });
     }
 }
