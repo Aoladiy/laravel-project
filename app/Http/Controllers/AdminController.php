@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\ArticlesRepositoryContract;
 use App\Contracts\Repositories\CarsRepositoryContract;
+use App\Contracts\Services\TagsSynchronizerServiceContract;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\ModelRequest;
+use App\Http\Requests\TagsRequest;
 use App\Models\Article;
 use App\Models\Car;
+use App\Services\TagsSynchronizerService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -31,32 +34,64 @@ class AdminController extends Controller
         return view('pages.admin.admin_article_create');
     }
 
-    public function adminArticleCreateRequest(ArticleRequest $request, ArticlesRepositoryContract $articlesRepositoryContract): RedirectResponse
+    public function adminArticleCreateRequest(ArticleRequest                  $request,
+                                              TagsRequest                     $tagsRequest,
+                                              ArticlesRepositoryContract      $articlesRepositoryContract,
+                                              TagsSynchronizerServiceContract $tagsSynchronizerServiceContract,
+    ): RedirectResponse
     {
-        $data = $request->only(['title', 'description', 'body', 'published_at']);
-
-        if (isset($data['published_at'])) {
-            $data['published_at'] = date('Y-m-d H:i:s');
-        } else {
-            $data['published_at'] = null;
-        }
-
-        $data['slug'] = Str::slug($data['title']);
+        $data = $request->only(['slug', 'title', 'description', 'body', 'published_at', 'tags']);
 
         try {
             $articlesRepositoryContract->findBySlug($data['slug']);
             return back()->with('error_message', ['Запись с таким slug уже существует']);
-        } catch (\Exception $exception)
-        {
+        } catch (\Exception $exception) {
         }
 
         try {
-            $articlesRepositoryContract->create($data);
+            $article = $articlesRepositoryContract->create($data);
+            $tagsSynchronizerServiceContract->sync($article, $tagsRequest->get('tags'));
             return back()->with('success_message', ['Запись успешно создана']);
         } catch (\Exception $exception) {
             return back()->with('error_message', ['Запись не создана']);
         }
     }
+
+    public function adminArticleEdit($slug, ArticlesRepositoryContract $articlesRepositoryContract): View
+    {
+        $article = $articlesRepositoryContract->findBySlug($slug);
+        return view('pages.admin.admin_article_edit', ['article' => $article]);
+    }
+
+    public function adminArticleEditRequest(ArticleRequest                  $request,
+                                            TagsRequest                     $tagsRequest,
+                                                                            $slug,
+                                            ArticlesRepositoryContract      $articlesRepositoryContract,
+                                            TagsSynchronizerServiceContract $tagsSynchronizerServiceContract
+    ): RedirectResponse
+    {
+        $data = $request->only(['title', 'description', 'body', 'published_at', 'tags']);
+        $id = $articlesRepositoryContract->findBySlug($slug)->id;
+        try {
+            $article = $articlesRepositoryContract->update($id, $data);
+            $tagsSynchronizerServiceContract->sync($article, $tagsRequest->get('tags'));
+            return back()->with('success_message', ['Запись успешно изменена']);
+        } catch (\Exception $exception) {
+            return back()->with('error_message', ['Запись не изменена']);
+        }
+    }
+
+    public function adminArticleDeleteRequest($slug, ArticlesRepositoryContract $articlesRepositoryContract): RedirectResponse
+    {
+        try {
+            $id = $articlesRepositoryContract->findBySlug($slug)->id;
+            $articlesRepositoryContract->delete($id);
+            return back()->with('success_message', ['Запись с slug=' . $slug . ' успешно удалена']);
+        } catch (\Exception $exception) {
+            return back()->with('error_message', ['Запись с slug=' . $slug . ' не удалена']);
+        }
+    }
+
     public function adminModels(CarsRepositoryContract $carsRepositoryContract): View
     {
         $models = $carsRepositoryContract->findAll();

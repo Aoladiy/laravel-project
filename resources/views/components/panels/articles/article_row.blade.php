@@ -4,10 +4,12 @@
     <td class="border px-4 py-2">{{$article->title}}</td>
     <td class="border px-4 py-2">{{$article->description}}</td>
     <td class="border px-4 py-2">{{$article->published_at ?? 'null'}}</td>
-    <td class="border px-4 py-2">Киа Seed</td>
+    <td class="border px-4 py-2">
+        <x-panels.tags :tags="$article->tags" />
+    </td>
     <td class="border px-4 py-2">
         <div class="flex items-center">
-            <a href="../../../../../../Desktop/grade_layout/admin_article_form.html"
+            <a href="{{route('adminArticleEdit', ['slug' => $article->slug])}}"
                class="inline-block bg-orange hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded"
                title="Редактировать">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
@@ -22,7 +24,9 @@
         </div>
     </td>
     <td class="border px-4 py-2">
-        <form class="flex items-center">
+        <form class="flex items-center" method="post" action="{{route('adminArticleDeleteRequest', ['slug' => $article->slug])}}">
+            @method('delete')
+            @csrf
             <button type="submit"
                     class="inline-block bg-gray-400 hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded"
                     title="Удалить">
