@@ -7,7 +7,6 @@
     </div>
     <div class="grid md:grid-cols-1 lg:grid-cols-3 gap-6">
         @foreach($articles as $article)
-{{--            @include('components.panels.articles.article_item', ['article', $article])--}}
             <x-panels.articles.article_item :article="$article" />
         @endforeach
     </div>

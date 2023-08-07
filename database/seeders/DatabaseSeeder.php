@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CarSeeder::class);
         $this->call(ArticleSeeder::class);
         $this->call(TagSeeder::class);
+        $this->call(BannerSeeder::class);
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([

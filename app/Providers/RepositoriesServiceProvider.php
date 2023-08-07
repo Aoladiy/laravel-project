@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Contracts\Repositories\ArticlesRepositoryContract;
+use App\Contracts\Repositories\BannersRepositoryContract;
 use App\Contracts\Repositories\CarCarcasesRepositoryContract;
 use App\Contracts\Repositories\CarClassesRepositoryContract;
 use App\Contracts\Repositories\CarEnginesRepositoryContract;
@@ -11,6 +12,7 @@ use App\Contracts\Repositories\CategoriesRepositoryContract;
 use App\Contracts\Repositories\ImagesRepositoryContract;
 use App\Contracts\Repositories\TagsRepositoryContract;
 use App\Repositories\ArticleRepository;
+use App\Repositories\BannerRepository;
 use App\Repositories\CarCarcasesRepository;
 use App\Repositories\CarClassesRepository;
 use App\Repositories\CarEnginesRepository;
@@ -43,6 +45,8 @@ class RepositoriesServiceProvider extends ServiceProvider
             CategoryRepository::class);
         $this->app->singleton(ImagesRepositoryContract::class,
             ImagesRepository::class);
+        $this->app->singleton(BannersRepositoryContract::class,
+            BannerRepository::class);
     }
 
     /**

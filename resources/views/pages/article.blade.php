@@ -1,7 +1,3 @@
-{{--@extends('layouts.inner_two_columns')--}}
-{{--@section('page-title', $article->title)--}}
-{{--@section('title', $article->title)--}}
-{{--@section('content')--}}
 @props(['article'])
 <x-layouts.inner_two_columns
     page-title="{!!$article->title!!}"
@@ -11,7 +7,7 @@
 
         <img src="{{$article->imageUrl}}" alt="" title="">
 
-        <x-panels.tags :tags="$article->tags" />
+        <x-panels.tags :tags="$article->tags"/>
 
         <p>{{$article->description}}</p>
         <div>{!! $article->body !!}</div>
@@ -26,5 +22,4 @@
             К списку новостей
         </a>
     </div>
-    {{--@endsection--}}
 </x-layouts.inner_two_columns>

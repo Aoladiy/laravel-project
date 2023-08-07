@@ -1,9 +1,6 @@
-{{--@extends('layouts.inner')--}}
-{{--@section('page-title', $product->name)--}}
-{{--@section('title', $product->name)--}}
 <x-layouts.inner
-        page-title="{{ $product->name }}"
-        title="{{ $product->name }}"
+    page-title="{{ $product->name }}"
+    title="{{ $product->name }}"
 >
     @push('scripts')
         <script>
@@ -32,14 +29,13 @@
             })
         </script>
     @endpush
-    {{--@section('content')--}}
     <div class="flex-1 grid grid-cols-1 lg:grid-cols-5 border-b w-full">
         <div class="col-span-3 border-r-0 sm:border-r pb-4 pr-4 text-center catalog-detail-slick-preview"
              data-slick-carousel-detail>
             <div class="mb-4 border rounded" data-slick-carousel-detail-items>
                 <img class="w-full" src="{{$product->imageUrl}}" alt="" title="">
                 @foreach($product->images as $image)
-                <img class="w-full" src="{{$image->url}}" alt="" title="">
+                    <img class="w-full" src="{{$image->url}}" alt="" title="">
                 @endforeach
             </div>
             <div class="flex space-x-4 justify-center items-center" data-slick-carousel-detail-pager>
@@ -50,15 +46,17 @@
                 <div class="block px-4">
                     <p class="font-bold">Цена:</p>
                     @isset($product->old_price)
-{{--                        <p class="text-base line-through text-gray-400">@include('components.panels.price_formatter', ['price' => $product->old_price])</p>--}}
-                        <p class="text-base line-through text-gray-400"><x-price :price="$product->old_price" /></p>
+                        <p class="text-base line-through text-gray-400">
+                            <x-price :price="$product->old_price"/>
+                        </p>
                     @endisset
-{{--                    <p class="font-bold text-2xl text-orange">@include('components.panels.price_formatter', ['price' => $product->price])</p>--}}
-                    <p class="font-bold text-2xl text-orange"><x-price :price="$product->price" /></p>
+                    <p class="font-bold text-2xl text-orange">
+                        <x-price :price="$product->price"/>
+                    </p>
                     <div class="mt-4 block">
                         <form>
                             <button
-                                    class="inline-block bg-orange hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
+                                class="inline-block bg-orange hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-6 w-6 mr-2"
                                      fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -71,8 +69,8 @@
                 </div>
                 <div class="block border-t clear-both w-full" data-accordion data-active>
                     <div
-                            class="text-black text-2xl font-bold flex items-center justify-between hover:bg-gray-50 p-4 cursor-pointer"
-                            data-accordion-toggle>
+                        class="text-black text-2xl font-bold flex items-center justify-between hover:bg-gray-50 p-4 cursor-pointer"
+                        data-accordion-toggle>
                         <span>Параметры</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="text-orange h-6 w-6" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor" data-accordion-not-active
@@ -148,8 +146,8 @@
                 </div>
                 <div class="block border-t clear-both w-full" data-accordion>
                     <div
-                            class="text-black text-2xl font-bold flex items-center justify-between hover:bg-gray-50 p-4 cursor-pointer"
-                            data-accordion-toggle>
+                        class="text-black text-2xl font-bold flex items-center justify-between hover:bg-gray-50 p-4 cursor-pointer"
+                        data-accordion-toggle>
                         <span>Описание</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="text-orange h-6 w-6" fill="none"
                              viewBox="0 0 24 24" stroke="currentColor" data-accordion-not-active>
@@ -172,5 +170,4 @@
             </div>
         </div>
     </div>
-    {{--@endsection--}}
 </x-layouts.inner>

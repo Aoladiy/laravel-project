@@ -1,7 +1,3 @@
-{{--@extends('layouts.admin')--}}
-{{--@section('page-title', 'Управление сайтом')--}}
-{{--@section('title', 'Управление сайтом')--}}
-{{--@section('content')--}}
 <x-layouts.admin
     page-title="Управление сайтом"
     title="Управление сайтом"
@@ -45,5 +41,4 @@
             </div>
         </div>
     </section>
-{{--@endsection--}}
 </x-layouts.admin>
