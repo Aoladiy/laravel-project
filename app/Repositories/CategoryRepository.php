@@ -43,7 +43,7 @@ class CategoryRepository implements CategoriesRepositoryContract
     {
         return Cache::tags(['categories', 'cars'])->remember(sprintf("CategoryDescendantsIds|%s", $category->id),
             3600,
-            fn()=>$category->descendants->pluck('id')->push($category->id)->all()
+            fn() => $category->descendants->pluck('id')->push($category->id)->all()
         );
     }
 
@@ -51,8 +51,7 @@ class CategoryRepository implements CategoriesRepositoryContract
     {
         return Cache::tags(['categories', 'cars'])->remember("categoriesTree|$maxDepth",
             3600,
-            fn() => $this->getCategory()->withDepth()->having('depth', '<=',
-                $maxDepth)->orderBy('sort')->get()->toTree()
+            fn() => $this->getCategory()->withDepth()->having('depth', '<=', $maxDepth)->orderBy('sort')->get()->toTree()
         );
     }
 

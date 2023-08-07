@@ -43,7 +43,8 @@ class ArticleController extends Controller
         }
     }
 
-    public function articleEdit($slug, ArticlesRepositoryContract $articlesRepositoryContract): View
+    public function articleEdit(string                     $slug,
+                                ArticlesRepositoryContract $articlesRepositoryContract): View
     {
         $article = $articlesRepositoryContract->findBySlug($slug);
         return view('pages.admin.admin_article_edit', ['article' => $article]);
@@ -51,7 +52,7 @@ class ArticleController extends Controller
 
     public function articleEditRequest(ArticleRequest             $request,
                                        TagsRequest                $tagsRequest,
-                                                                  $slug,
+                                       string                     $slug,
                                        ArticlesRepositoryContract $articlesRepositoryContract,
                                        ArticleEditServiceContract $articleEditServiceContract,
     ): RedirectResponse
@@ -67,7 +68,7 @@ class ArticleController extends Controller
         }
     }
 
-    public function articleDeleteRequest($slug,
+    public function articleDeleteRequest(string                       $slug,
                                          ArticleDeleteServiceContract $articleDeleteServiceContract
     ): RedirectResponse
     {
