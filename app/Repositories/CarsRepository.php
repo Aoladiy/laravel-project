@@ -89,22 +89,23 @@ class CarsRepository implements CarsRepositoryContract
 
     public function create(array $fields): Car
     {
+        $car = $this->getModel()->create($fields);
         $this->flushCache();
-        return $this->getModel()->create($fields);
+        return $car;
     }
 
     public function update(int $id, array $fields): Car
     {
-        $this->flushCache();
         $model = $this->findById($id);
         $model->update($fields);
+        $this->flushCache();
         return $model;
     }
 
     public function delete(int $id): void
     {
-        $this->flushCache();
         $this->findById($id)->delete();
+        $this->flushCache();
     }
 
     /**

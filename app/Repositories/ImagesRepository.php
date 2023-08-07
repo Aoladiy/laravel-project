@@ -20,8 +20,9 @@ class ImagesRepository implements ImagesRepositoryContract
 
     public function create(string $diskPath): Image
     {
+        $image = $this->getModel()->create(['path' => $diskPath]);
         $this->flushCache();
-        return $this->getModel()->create(['path' => $diskPath]);
+        return $image;
     }
 
     private function getModel(): Image
@@ -36,8 +37,9 @@ class ImagesRepository implements ImagesRepositoryContract
 
     public function delete(int $id)
     {
+        $image = $this->getModel()->where('id', $id)->delete();
         $this->flushCache();
-        return $this->getModel()->where('id', $id)->delete();
+        return $image;
     }
 
 }

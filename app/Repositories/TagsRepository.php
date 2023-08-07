@@ -26,8 +26,8 @@ class TagsRepository implements TagsRepositoryContract
 
     public function syncTags(HasTagsContract $model, array $tags)
     {
-        $this->flushCache();
         $model->tags()->sync($tags);
+        $this->flushCache();
     }
 
     private function getModel(): Tag
