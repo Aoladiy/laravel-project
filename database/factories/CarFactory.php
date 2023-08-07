@@ -6,6 +6,7 @@ use App\Models\CarBody;
 use App\Models\CarCarcase;
 use App\Models\CarClass;
 use App\Models\CarEngine;
+use App\Models\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -33,6 +34,7 @@ class CarFactory extends Factory
             'engine_id' => CarEngine::factory(),
             'carcase_id' => CarCarcase::factory(),
             'class_id' => CarClass::factory(),
+            'image_id' => Image::factory(),
         ];
     }
 }

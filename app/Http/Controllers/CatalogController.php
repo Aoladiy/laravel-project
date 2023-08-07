@@ -2,28 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Repositories\CarsRepositoryContract;
+use App\Contracts\Repositories\CategoriesRepositoryContract;
+use App\DTO\CatalogFilterDTO;
 use App\Models\Car;
+use App\Models\Category;
+use App\Repositories\CarsRepository;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CatalogController extends Controller
 {
-    public function catalog(Request $request): View
+    public function catalog(Request $request,
+                            CategoriesRepositoryContract $categoriesRepositoryContract,
+                            CarsRepositoryContract $carsRepositoryContract,
+                            $slug = null,
+                            ): View
     {
-        $models = Car::query()
-            ->when(($model = $request->get('name')) !== null, fn($query) => $query->where('name', 'like', "%$model%"))
-            ->when(($minPrice = $request->get('lowest')) !== null, fn($query) => $query->where('price', '>=', $minPrice))
-            ->when(($maxPrice = $request->get('highest')) !== null, fn($query) => $query->where('price', '<=', $maxPrice))
-            ->when(($orderPrice = $request->get('order_price')) !== null, fn($query) => $query
-                ->orderBy('price', $orderPrice === 'desc' ? 'desc' : 'asc'))
-            ->when(($orderModel = $request->get('order_model')) !== null, fn($query) => $query
-                ->orderBy('name', $orderModel === 'desc' ? 'desc' : 'asc'))
-            ->get();
-        return view('pages.catalog', ['models' => $models]);
+        $allCategories = collect();
+        $category = $categoriesRepositoryContract->findBySlug($slug, ['cars']) === false ? null : $categoriesRepositoryContract->findBySlug($slug, ['cars']);
+        if ($category) {
+            $allCategories = $categoriesRepositoryContract->getCategoryDescendantsIds($category);
+        }
+        $catalogFilterDTO = (new CatalogFilterDTO())
+            ->setName($request->get('name'))
+            ->setLowest($request->get('lowest'))
+            ->setHighest($request->get('highest'))
+            ->setOrderModel($request->get('order_model'))
+            ->setOrderPrice($request->get('order_price'))
+            ->setCategory($category)
+            ->setAllCategories($allCategories);
+        $currentPage = $request->get('page');
+        $models = $carsRepositoryContract->paginateForCatalog($catalogFilterDTO, page: $currentPage ?? 1, relations: ['image']);
+        return view('pages.catalog', ['models' => $models, 'currentCategory' => $category]);
     }
 
-    public function product(Car $id): View
+    public function product($id, CarsRepositoryContract $carsRepositoryContract): View
     {
-        return view('pages.product', ['product' => $id]);
+        $product = $carsRepositoryContract->findById($id, ['image', 'images', 'engine', 'carcase', 'class']);
+        return view('pages.product', ['product' => $product]);
     }
 }

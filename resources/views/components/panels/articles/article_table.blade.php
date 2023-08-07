@@ -13,7 +13,6 @@
     </thead>
     <tbody>
     @foreach($articles as $article)
-{{--        @include('panels.articles.article_row', ['article' => $article])--}}
         <x-panels.articles.article_row :article="$article" />
     @endforeach
     </tbody>

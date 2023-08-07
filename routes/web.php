@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\ModelController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Route;
@@ -25,22 +27,25 @@ Route::get('/finance', [PagesController::class, 'finance'])->name('finance');
 Route::get('/clients', [PagesController::class, 'clients'])->name('clients');
 
 Route::get('/articles', [PagesController::class, 'articles'])->name('articles');
-Route::get('/articles/{article:slug}', [PagesController::class, 'article'])->name('article');
+Route::get('/articles/{slug}', [PagesController::class, 'article'])->name('article');
 
 
-Route::get('/catalog', [CatalogController::class, 'catalog'])->name('catalog');
-Route::get('/products/{id:id}', [CatalogController::class, 'product'])->name('product');
+Route::get('/catalog/{slug?}', [CatalogController::class, 'catalog'])->name('catalog');
+Route::get('/products/{id}', [CatalogController::class, 'product'])->name('product');
 
 
 Route::get('/admin', [AdminController::class, 'admin'])->name('admin');
 
-Route::get('/admin/articles', [AdminController::class, 'adminArticles'])->name('adminArticles');
-Route::get('/admin/articles/create', [AdminController::class, 'adminArticleCreate'])->name('adminArticleCreate');
-Route::post('/admin/articles/create', [AdminController::class, 'adminArticleCreateRequest'])->name('adminArticleCreateRequest');
+Route::get('/admin/articles', [ArticleController::class, 'articles'])->name('adminArticles');
+Route::get('/admin/articles/create', [ArticleController::class, 'articleCreate'])->name('articleCreate');
+Route::post('/admin/articles/create', [ArticleController::class, 'articleCreateRequest'])->name('articleCreateRequest');
+Route::get('/admin/articles/edit/{slug}', [ArticleController::class, 'articleEdit'])->name('articleEdit');
+Route::patch('/admin/articles/edit/{slug}', [ArticleController::class, 'articleEditRequest'])->name('articleEditRequest');
+Route::delete('/admin/articles/delete/{slug}', [ArticleController::class, 'articleDeleteRequest'])->name('articleDeleteRequest');
 
-Route::get('/admin/models', [AdminController::class, 'adminModels'])->name('adminModels');
-Route::get('/admin/models/create', [AdminController::class, 'adminModelCreate'])->name('adminModelCreate');
-Route::post('/admin/models/create', [AdminController::class, 'adminModelCreateRequest'])->name('adminModelCreateRequest');
-Route::get('/admin/models/edit/{model}', [AdminController::class, 'adminModelEdit'])->name('adminModelEdit');
-Route::patch('/admin/models/edit/{model}', [AdminController::class, 'adminModelEditRequest'])->name('adminModelEditRequest');
-Route::delete('/admin/models/delete/{model}', [AdminController::class, 'adminModelDeleteRequest'])->name('adminModelDeleteRequest');
+Route::get('/admin/models', [ModelController::class, 'models'])->name('adminModels');
+Route::get('/admin/models/create', [ModelController::class, 'modelCreate'])->name('modelCreate');
+Route::post('/admin/models/create', [ModelController::class, 'modelCreateRequest'])->name('modelCreateRequest');
+Route::get('/admin/models/edit/{id}', [ModelController::class, 'modelEdit'])->name('modelEdit');
+Route::patch('/admin/models/edit/{id}', [ModelController::class, 'modelEditRequest'])->name('modelEditRequest');
+Route::delete('/admin/models/delete/{id}', [ModelController::class, 'modelDeleteRequest'])->name('modelDeleteRequest');

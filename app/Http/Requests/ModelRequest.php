@@ -26,6 +26,7 @@ class ModelRequest extends FormRequest
             'body' => 'required|string',
             'price' => 'required|numeric',
             'old_price' => 'sometimes|nullable|numeric',
+            'image' => 'sometimes|nullable|image',
             'salon' => 'sometimes|nullable|string',
             'kpp' => 'sometimes|nullable|string',
             'year' => 'sometimes|nullable|numeric|gte:0',
@@ -34,6 +35,7 @@ class ModelRequest extends FormRequest
             'engine_id' => 'required|numeric',
             'carcase_id' => 'required|numeric',
             'class_id' => 'required|numeric',
+            'category_ids' => 'required|array',
         ];
     }
 }
