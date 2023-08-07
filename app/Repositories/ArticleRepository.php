@@ -6,16 +6,27 @@ use App\Contracts\Repositories\ArticlesRepositoryContract;
 use App\Models\Article;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class ArticleRepository implements ArticlesRepositoryContract
 {
+    use FlushesCache;
+
+    protected function cacheTags(): array
+    {
+        return ['articles'];
+    }
+
     public function __construct(private readonly Article $article)
     {
     }
 
-    public function getNews(): Collection
+    public function getNews(int $amount): Collection
     {
-        return $this->getArticle()->limit(3)->latest('published_at')->get();
+        return Cache::tags(['articles', 'images', 'tags'])->remember("News|$amount",
+            3600,
+            fn() => $this->getArticle()->with(['image', 'tags'])->limit($amount)->latest('published_at')->get()
+        );
     }
 
     public function getAllPublishedNews(array  $fields = ['*'],
@@ -23,12 +34,25 @@ class ArticleRepository implements ArticlesRepositoryContract
                                         int    $page = 1,
                                         string $pageName = 'page'): LengthAwarePaginator
     {
-        return $this->getArticle()->where('published_at', '<>', null)->latest('published_at')->paginate($perPage, $fields, $pageName, $page);
+        return Cache::tags(['articles', 'images', 'tags'])->remember(
+            sprintf("allPublishedNews|%s", serialize([
+                'fields' => $fields,
+                'perPage' => $perPage,
+                'page' => $page,
+                'pageName' => $pageName
+            ])),
+            3600,
+            fn() => $this->getArticle()->with('image', 'tags')->where('published_at', '<>', null)->latest('published_at')->paginate($perPage, $fields, $pageName, $page)
+        );
     }
 
     public function findBySlug($slug): Article
     {
-        return $this->getArticle()->where('slug', $slug)->firstOrFail();
+        return Cache::tags(['articles', 'images', 'tags'])->remember(
+            sprintf("findArticleBySlug|%s", $slug),
+            3600,
+            fn() => $this->getArticle()->with(['image', 'tags'])->where('slug', $slug)->firstOrFail()
+        );
     }
 
     public function findAll(): Collection
@@ -43,19 +67,23 @@ class ArticleRepository implements ArticlesRepositoryContract
 
     public function create(array $fields): Article
     {
-        return $this->getArticle()->create($fields);
+        $article = $this->getArticle()->create($fields);
+        $this->flushCache();
+        return $article;
     }
 
     public function update(int $id, array $fields): Article
     {
         $model = $this->findById($id);
         $model->update($fields);
+        $this->flushCache();
         return $model;
     }
 
     public function delete(int $id): void
     {
         $this->findById($id)->delete();
+        $this->flushCache();
     }
 
     /**

@@ -8,24 +8,25 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-interface CarsRepositoryContract
+interface CarsRepositoryContract extends FlushCacheRepositoryContract
 {
     public function paginateForCatalog(
         CatalogFilterDTO $catalogFilterDTO,
-        array $fields = ['*'],
-        int $perPage = 10,
-        int $page = 1,
-        string $pageName = 'page',
+        array            $fields = ['*'],
+        int              $perPage = 10,
+        int              $page = 1,
+        string           $pageName = 'page',
+        array            $relations = [],
     ): LengthAwarePaginator;
 
 
     public function getCatalog(CatalogFilterDTO $catalogFilterDTO, array $fields): Collection;
 
-    public function getModelsOfTheWeek(): Collection;
+    public function getModelsOfTheWeek(int $amount): Collection;
 
     public function findAll(): Collection;
 
-    public function findById(int $id): Car;
+    public function findById(int $id, array $relations): Car;
 
     public function create(array $fields): Car;
 

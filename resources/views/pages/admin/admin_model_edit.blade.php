@@ -1,20 +1,14 @@
-{{--@extends('layouts.admin')--}}
-{{--@section('page-title', 'Редактировать модель')--}}
-{{--@section('title', 'Редактировать модель')--}}
-{{--@section('content')--}}
 <x-layouts.admin
     page-title="Редактировать модель"
     title="Редактировать модель"
 >
     @if (session()->has('error_message'))
-        {{--        @include('components.panels.messages.error', ['message' => session('error_message', [])])--}}
         <x-panels.messages.error message="{{session('error_message', [])[0]}}"/>
     @endif
     @if (session()->has('success_message'))
-        {{--            @include('components.panels.messages.success', ['message' => session('success_message', [])])--}}
         <x-panels.messages.success message="{{session('success_message', [])[0]}}"/>
     @endif
-    <form action="{{route('adminModelEditRequest', $model)}}" method="post">
+    <form action="{{route('modelEditRequest', $model)}}" method="post" enctype="multipart/form-data">
         @method('patch')
         @csrf
         <div class="mt-8 max-w-md">
@@ -44,6 +38,13 @@
                     <x-slot:label>Цена без скидки</x-slot:label>
                     <input id="old_price" type="number" name="old_price" value="{{$model->old_price}}"
                            class=" mt-1 block w-full rounded-md @error('old_price') border-red-600 @else border-gray-300 @enderror shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                           placeholder="">
+                </x-forms.input>
+
+                <x-forms.input for="image" name="image">
+                    <x-slot:label>Основное изображение модели</x-slot:label>
+                    <input id="image" type="file" name="image" value="{{$model->imageUrl}}"
+                           class=" mt-1 block w-full rounded-md @error('image') border-red-600 @else border-gray-300 @enderror shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                            placeholder="">
                 </x-forms.input>
 
@@ -88,34 +89,35 @@
 
                 <x-forms.input for="engine_id" name="engine_id">
                     <x-slot:label>Двигатель</x-slot:label>
-                    <x-forms.selections.select-engines name="engine_id" selected="{{$model->engine_id}}" />
+                    <x-forms.selections.select-engines name="engine_id" selected="{{$model->engine_id}}"/>
                 </x-forms.input>
 
                 <x-forms.input for="carcase_id" name="carcase_id">
                     <x-slot:label>Корпус</x-slot:label>
-                    <x-forms.selections.select-carcases name="carcase_id" selected="{{$model->carcase_id}}" />
+                    <x-forms.selections.select-carcases name="carcase_id" selected="{{$model->carcase_id}}"/>
                 </x-forms.input>
 
                 <x-forms.input for="class_id" name="class_id">
                     <x-slot:label>Класс</x-slot:label>
-                    <x-forms.selections.select-classes name="class_id" selected="{{$model->class_id}}" />
+                    <x-forms.selections.select-classes name="class_id" selected="{{$model->class_id}}"/>
                 </x-forms.input>
 
                 <x-forms.input for="category_ids[]" name="category_ids[]">
                     <x-slot:label>Категория(и)</x-slot:label>
-                    <x-forms.selections.select-categories name="category_ids[]" selected="{{$model->categories->pluck('name')}}" :model="$model" />
+                    <x-forms.selections.select-categories name="category_ids[]"
+                                                          selected="{{$model->categories->pluck('name')}}"
+                                                          :model="$model"/>
                 </x-forms.input>
 
                 <x-forms.row>
                     <x-forms.submit-button>
                         Сохранить
                     </x-forms.submit-button>
-                    <x-forms.cancel-button href="{{ route('adminModelEdit', $model) }}">
+                    <x-forms.cancel-button href="{{ route('modelEdit', $model) }}">
                         Отменить
                     </x-forms.cancel-button>
                 </x-forms.row>
             </div>
         </div>
     </form>
-    {{--@endsection--}}
 </x-layouts.admin>

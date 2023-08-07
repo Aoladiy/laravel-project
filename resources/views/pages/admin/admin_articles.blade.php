@@ -1,14 +1,10 @@
-{{--@extends('layouts.admin')--}}
-{{--@section('page-title', 'Управление новостями')--}}
-{{--@section('title', 'Управление новостями')--}}
-{{--@section('content')--}}
 <x-layouts.admin
-        page-title="Управление новостями"
-        title="Управление новостями"
+    page-title="Управление новостями"
+    title="Управление новостями"
 >
     <section class="pb-4">
         <div class="my-6">
-            <a href="{{route('adminArticleCreate')}}"
+            <a href="{{route('articleCreate')}}"
                class="inline-block bg-orange hover:bg-opacity-70 focus:outline-none text-white font-bold py-2 px-4 rounded"
                title="Добавить новость">
                     <span class="flex items-center space-x-2">
@@ -21,14 +17,9 @@
                     </span>
             </a>
         </div>
-
-{{--        @include('panels.articles.article_table', ['articles' => $articles])--}}
-        <x-panels.articles.article_table :articles="$articles" />
-
+        <x-panels.articles.article_table :articles="$articles"/>
         <div class="text-center mt-4">
-{{--            @include('components.panels.pagination_menu')--}}
-            <x-panels.pagination_menu />
+            <x-panels.pagination_menu/>
         </div>
     </section>
-    {{--@endsection--}}
 </x-layouts.admin>

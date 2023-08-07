@@ -1,7 +1,3 @@
-{{--@extends('layouts.inner')--}}
-{{--@section('page-title', 'Каталог')--}}
-{{--@section('title', 'Каталог')--}}
-{{--@section('content')--}}
 <x-layouts.inner
     page-title="Каталог"
     title="Каталог"
@@ -47,20 +43,14 @@
         <hr>
         <div class="flex space-x-2 items-center">
             <div class="font-bold">Сортировать по:</div>
-            {{--            @include('components.catalog.sort-button', ['name' => 'order_price', 'label' => 'Цене'])--}}
-            {{--            @include('components.catalog.sort-button', ['name' => 'order_model', 'label' => 'Модели'])--}}
             <x-catalog.sort-button name="order_price" current-value="{{request()->get('order_price') }}">Цене
             </x-catalog.sort-button>
             <x-catalog.sort-button name="order_model" current-value="{{request()->get('order_model') }}">Модели
             </x-catalog.sort-button>
         </div>
     </form>
-    {{--    @include('panels.catalog.cars', ['$models' => $models])--}}
     <x-catalog.cars :models="$models"/>
     <div class="text-center mt-4">
-{{--        @include('components.panels.pagination_menu')--}}
-{{--        {{$models->onEachSide(1)->links()}}--}}
-        <x-panels.pagination :paginator="$models" />
+        <x-panels.pagination :paginator="$models"/>
     </div>
-    {{--@endsection--}}
 </x-layouts.inner>

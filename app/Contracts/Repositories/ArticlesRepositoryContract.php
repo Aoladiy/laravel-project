@@ -7,9 +7,9 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-interface ArticlesRepositoryContract
+interface ArticlesRepositoryContract extends FlushCacheRepositoryContract
 {
-    public function getNews(): Collection;
+    public function getNews(int $amount): Collection;
 
     public function getAllPublishedNews(array  $fields = ['*'],
                                         int    $perPage = 5,

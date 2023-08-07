@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Repositories\ArticlesRepositoryContract;
+use App\Contracts\Repositories\BannersRepositoryContract;
 use App\Contracts\Repositories\CarsRepositoryContract;
 use App\Models\Article;
+use App\Models\Banner;
 use App\Models\Car;
 use App\Models\CarCarcase;
 use Illuminate\Http\Request;
@@ -13,11 +15,15 @@ use Illuminate\View\View;
 
 class PagesController extends Controller
 {
-    public function home(CarsRepositoryContract $carsRepositoryContract, ArticlesRepositoryContract $articlesRepositoryContract): View
+    public function home(CarsRepositoryContract     $carsRepositoryContract,
+                         ArticlesRepositoryContract $articlesRepositoryContract,
+                         BannersRepositoryContract  $bannersRepositoryContract,
+    ): View
     {
-        $articles = $articlesRepositoryContract->getNews();
-        $models = $carsRepositoryContract->getModelsOfTheWeek();
-        return view('pages.homepage', ['articles' => $articles, 'models' => $models]);
+        $banners = $bannersRepositoryContract->getRandomBanners(3);
+        $articles = $articlesRepositoryContract->getNews(3);
+        $models = $carsRepositoryContract->getModelsOfTheWeek(4);
+        return view('pages.homepage', ['articles' => $articles, 'models' => $models, 'banners' => $banners]);
     }
 
     public function about(): View

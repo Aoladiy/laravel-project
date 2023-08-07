@@ -8,6 +8,13 @@ use App\Models\Tag;
 
 class TagsRepository implements TagsRepositoryContract
 {
+    use FlushesCache;
+
+    protected function cacheTags(): array
+    {
+        return ['tags'];
+    }
+
     public function __construct(private readonly Tag $model)
     {
     }
@@ -20,6 +27,7 @@ class TagsRepository implements TagsRepositoryContract
     public function syncTags(HasTagsContract $model, array $tags)
     {
         $model->tags()->sync($tags);
+        $this->flushCache();
     }
 
     private function getModel(): Tag

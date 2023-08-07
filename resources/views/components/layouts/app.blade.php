@@ -32,11 +32,9 @@
 
                 </div>
                 <div>
-                    {{--                    @yield('user-menu')--}}
                     @isset($userMenu)
                         {{ $userMenu }}
                     @else
-{{--                        @include('components.panels.user_not_authorized_menu')--}}
                         <x-panels.user_not_authorized_menu />
                     @endisset
                 </div>
@@ -57,7 +55,6 @@
                         </svg>
                     </button>
                 </form>
-                {{--                @yield('nav-menu')--}}
                 @isset($navigationMenu)
                     {{ $navigationMenu }}
                 @else
@@ -68,17 +65,13 @@
             </div>
         </div>
     </header>
-    {{--    @yield('breadcrumbs')--}}
 
     {{$breadcrumbs ?? ''}}
     <main class="flex-1 container mx-auto bg-white">
-        {{--        @yield('template-content')--}}
         {{ $slot }}
     </main>
     <footer class="container mx-auto">
-        {{--        @yield('footerInfo')--}}
         {{ $footerInfo ?? '' }}
-{{--        @include('components.panels.copyrights')--}}
         <x-panels.copyrights />
     </footer>
 </div>
