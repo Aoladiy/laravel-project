@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "00f3d65201ccf75f75b0d918dce03b2c",
+    "content-hash": "1371b455039642f9787ed2afb52f7ab8",
     "packages": [
         {
             "name": "brick/math",
@@ -5484,6 +5484,70 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/2.2.6"
             },
             "time": "2023-01-03T09:29:04+00:00"
+        },
+        {
+            "name": "vinkla/shield",
+            "version": "9.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vinkla/laravel-shield.git",
+                "reference": "62b1303f89c013b2c5fe1c7c6a394a1ec68b3270"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vinkla/laravel-shield/zipball/62b1303f89c013b2c5fe1c7c6a394a1ec68b3270",
+                "reference": "62b1303f89c013b2c5fe1c7c6a394a1ec68b3270",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^10.0",
+                "php": "^8.1",
+                "symfony/http-kernel": "^6.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "9.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Vinkla\\Shield\\ShieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vinkla\\Shield\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Klaiber",
+                    "email": "hello@doubledip.se"
+                }
+            ],
+            "description": "A HTTP basic auth middleware for Laravel",
+            "keywords": [
+                "auth",
+                "basic",
+                "http",
+                "laravel",
+                "middleware",
+                "shield"
+            ],
+            "support": {
+                "issues": "https://github.com/vinkla/laravel-shield/issues",
+                "source": "https://github.com/vinkla/laravel-shield/tree/9.0.0"
+            },
+            "time": "2023-02-14T10:29:19+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

@@ -16,7 +16,7 @@ class CatalogController extends Controller
     public function catalog(Request $request,
                             CategoriesRepositoryContract $categoriesRepositoryContract,
                             CarsRepositoryContract $carsRepositoryContract,
-                            $slug = null,
+                            ?string $slug = null,
                             ): View
     {
         $allCategories = collect();
