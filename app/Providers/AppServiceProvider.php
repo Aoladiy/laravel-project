@@ -8,6 +8,7 @@ use App\Contracts\Services\Article\ArticleEditServiceContract;
 use App\Contracts\Services\Model\ModelCreateServiceContract;
 use App\Contracts\Services\Model\ModelDeleteServiceContract;
 use App\Contracts\Services\Model\ModelEditServiceContract;
+use App\Contracts\Services\SalonsClientServiceContract;
 use App\Contracts\Services\TagsSynchronizerServiceContract;
 use App\Services\Article\ArticleCreateService;
 use App\Services\Article\ArticleDeleteService;
@@ -15,6 +16,7 @@ use App\Services\Article\ArticleEditService;
 use App\Services\Model\ModelCreateService;
 use App\Services\Model\ModelDeleteService;
 use App\Services\Model\ModelEditService;
+use App\Services\SalonsClientService;
 use App\Services\TagsSynchronizerService;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
@@ -55,6 +57,13 @@ class AppServiceProvider extends ServiceProvider
             ModelCreateService::class);
         $this->app->singleton(ModelDeleteServiceContract::class,
             ModelDeleteService::class);
+        $this->app->singleton(SalonsClientServiceContract::class, function () {
+            return $this->app->make(SalonsClientService::class, [
+                'baseUrl' => \config('services.SalonsClientService.baseUrl'),
+                'login' => \config('services.SalonsClientService.login'),
+                'password' => \config('services.SalonsClientService.password'),
+            ]);
+        });
     }
 
     /**
