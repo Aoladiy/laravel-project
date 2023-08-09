@@ -64,7 +64,7 @@ class ModelController extends Controller
 
     public function modelEditRequest(ModelRequest             $request,
                                      int                      $id,
-                                     ModelEditServiceContract $modelEditServiceContract
+                                     ModelEditServiceContract $modelEditServiceContract,
     ): RedirectResponse
     {
         $data = $request->only([
@@ -92,7 +92,7 @@ class ModelController extends Controller
     }
 
     public function modelDeleteRequest(int                        $id,
-                                       ModelDeleteServiceContract $modelDeleteServiceContract
+                                       ModelDeleteServiceContract $modelDeleteServiceContract,
     ): RedirectResponse
     {
         try {
