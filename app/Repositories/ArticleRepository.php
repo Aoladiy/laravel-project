@@ -54,12 +54,20 @@ class ArticleRepository implements ArticlesRepositoryContract
 
     public function getLongestArticle(): Article
     {
-        return $this->getArticle()->select('id', 'title', DB::raw('LENGTH(body) as body_length'))->orderByDesc('body_length')->first();
+        return $this->getArticle()
+            ->select('id', 'title')
+            ->selectRaw('LENGTH(body) as body_length')
+            ->orderByDesc('body_length')
+            ->first();
     }
 
     public function getShortestArticle(): Article
     {
-        return $this->getArticle()->select('id', 'title', DB::raw('LENGTH(body) as body_length'))->orderBy('body_length')->first();
+        return $this->getArticle()
+            ->select('id', 'title')
+            ->selectRaw('LENGTH(body) as body_length')
+            ->orderBy('body_length')
+            ->first();
     }
 
     public function getMostTaggedArticle(): Article
