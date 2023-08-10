@@ -59,7 +59,7 @@ class AppServiceProvider extends ServiceProvider
             ModelDeleteService::class);
         $this->app->singleton(SalonsClientServiceContract::class, function () {
             return $this->app->make(SalonsClientService::class, [
-                'baseUrl' => \config('services.SalonsClientService.baseUrl'),
+                'baseUrl' => \config('services.SalonsClientService.salonsApiUrl'),
                 'login' => \config('services.SalonsClientService.login'),
                 'password' => \config('services.SalonsClientService.password'),
             ]);

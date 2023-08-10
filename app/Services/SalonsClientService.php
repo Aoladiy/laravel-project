@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Services\SalonsClientServiceContract;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
 class SalonsClientService implements SalonsClientServiceContract
@@ -14,34 +15,31 @@ class SalonsClientService implements SalonsClientServiceContract
     {
     }
 
-    public function test()
-    {
-        return [
-            'baseUrl' => $this->baseUrl,
-            'login' => $this->login,
-            'password' => $this->password,
-        ];
-    }
-
     public function getRandomSalons(int $amount = 2): array|null
     {
-        try {
-            return Http::withBasicAuth($this->login, $this->password)
-                ->baseUrl($this->baseUrl)
-                ->get('salons', ['limit' => $amount, 'in_random_order'])
-                ->json();
-        } catch (RequestException $e) {
-            return null;
-        }
+        return $this
+            ->getSalons('salons', ['limit' => $amount, 'in_random_order' => true])
+            ->json();
     }
 
     public function getAllSalons(): array|null
     {
+        return $this
+            ->getSalons('salons')
+            ->json();
+    }
+
+    public function getSalons(string  $url,
+                              ?array  $parameters = null,
+                              ?string $baseUrl = null,
+                              ?string $login = null,
+                              ?string $password = null,
+    ): Response|null
+    {
         try {
-            return Http::withBasicAuth($this->login, $this->password)
-                ->baseUrl($this->baseUrl)
-                ->get('salons')
-                ->json();
+            return Http::withBasicAuth($login ?? $this->login, $password ?? $this->password)
+                ->baseUrl($baseUrl ?? $this->baseUrl)
+                ->get($url, $parameters);
         } catch (RequestException $e) {
             return null;
         }

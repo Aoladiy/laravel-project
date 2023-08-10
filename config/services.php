@@ -32,7 +32,7 @@ return [
     ],
 
     'SalonsClientService' => [
-        'baseUrl' => env('BASE_URL'),
+        'salonsApiUrl' => env('SALONS_API_URL'),
         'login' => env('STUDENTS_API_LOGIN'),
         'password' => env('STUDENTS_API_PASSWORD'),
     ],
