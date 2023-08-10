@@ -3,6 +3,12 @@
     page-title="{!!$article->title!!}"
     title="{!!$article->title!!}"
 >
+    <x-slot:breadcrumbsName>
+        article
+    </x-slot:breadcrumbsName>
+    <x-slot:breadcrumbsParameter>
+        {{$article->slug}}
+    </x-slot:breadcrumbsParameter>
     <div class="space-y-4">
 
         <img src="{{$article->imageUrl}}" alt="" title="">

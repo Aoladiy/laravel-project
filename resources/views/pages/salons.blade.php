@@ -2,6 +2,9 @@
     page-title="Салоны"
     title="Салоны"
 >
+    <x-slot:breadcrumbsName>
+        salons
+    </x-slot:breadcrumbsName>
     <div class="space-y-4 max-w-4xl">
         @if($salons !== false)
             @for($i=0; $i<count($salons); $i++)
