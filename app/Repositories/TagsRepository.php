@@ -30,6 +30,16 @@ class TagsRepository implements TagsRepositoryContract
         $this->flushCache();
     }
 
+    public function getMostWidespreadTag(): Tag
+    {
+        return Tag::withCount('articles')->orderBy('articles_count', 'desc')->first();
+    }
+
+    public function getAverageArticleCountPerTag(): float
+    {
+        return Tag::has('articles')->withCount('articles')->get()->average('articles_count');
+    }
+
     private function getModel(): Tag
     {
         return $this->model;

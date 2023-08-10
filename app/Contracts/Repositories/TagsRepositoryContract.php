@@ -10,4 +10,8 @@ interface TagsRepositoryContract
     public function firstOrCreateByName(string $name): Tag;
 
     public function syncTags(HasTagsContract $model, array $tags);
+
+    public function getMostWidespreadTag(): Tag;
+
+    public function getAverageArticleCountPerTag(): float;
 }
