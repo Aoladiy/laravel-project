@@ -19,15 +19,23 @@ class SalonsClientRepository implements SalonsClientRepositoryContract
     {
     }
 
-    public function getRandomSalons(int $amount = 2): array|null
+    public function getRandomSalons(int $amount = 2): array|bool
     {
-        return Cache::tags($this->cacheTags())->remember("randomSalons|$amount", 60*5, fn () => $this->salonsClientServiceContract->getRandomSalons($amount)) ??
-            Cache::tags($this->cacheTags())->remember("randomSalons|$amount", 30, fn () => $this->salonsClientServiceContract->getRandomSalons($amount));
+        $randomSalons = $this->salonsClientServiceContract->getRandomSalons($amount);
+        if ($randomSalons !== null) {
+            return Cache::tags($this->cacheTags())->remember("randomSalons|$amount", 60 * 5, fn() => $randomSalons);
+        } else {
+            return Cache::tags($this->cacheTags())->remember("randomSalons|$amount", 30, fn() => false);
+        }
     }
 
-    public function getAllSalons(): array|null
+    public function getAllSalons(): array|bool
     {
-        return Cache::tags($this->cacheTags())->remember("getAllSalons", 60*60, fn () => $this->salonsClientServiceContract->getAllSalons()) ??
-            Cache::tags($this->cacheTags())->remember("getAllSalons", 60, fn () => $this->salonsClientServiceContract->getAllSalons());
+        $allSalons = $this->salonsClientServiceContract->getAllSalons();
+        if ($allSalons !== null) {
+            return Cache::tags($this->cacheTags())->remember("getAllSalons", 60 * 60, fn() => $allSalons);
+        } else {
+            return Cache::tags($this->cacheTags())->remember("getAllSalons", 60, fn() => false);
+        }
     }
 }

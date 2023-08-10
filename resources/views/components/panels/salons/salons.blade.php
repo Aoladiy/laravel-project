@@ -5,7 +5,7 @@
 </div>
 
 <div class="grid gap-6 grid-cols-1 lg:grid-cols-2">
-    @isset($salons)
+    @if($salons !== false)
         @foreach($salons as $salon)
             <x-panels.salons.salon :salon="$salon"/>
         @endforeach
@@ -13,5 +13,5 @@
         <div>
             <p class="text-black text-xl">Данные временно недоступны, пожалуйста попробуйте позже</p>
         </div>
-    @endisset
+    @endif
 </div>

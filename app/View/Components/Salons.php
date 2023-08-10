@@ -9,7 +9,7 @@ use Illuminate\View\Component;
 
 class Salons extends Component
 {
-    public ?array $salons;
+    public array|bool $salons;
     /**
      * Create a new component instance.
      */

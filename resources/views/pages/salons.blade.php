@@ -3,7 +3,7 @@
     title="Салоны"
 >
     <div class="space-y-4 max-w-4xl">
-        @isset($salons)
+        @if($salons !== false)
             @for($i=0; $i<count($salons); $i++)
                 <x-panels.salons.all-salons-salon :salon="$salons[$i]" :i="$i"/>
             @endfor
@@ -11,7 +11,7 @@
             <div>
                 <p class="text-black text-xl">Данные временно недоступны, пожалуйста попробуйте позже</p>
             </div>
-        @endisset
+        @endif
     </div>
 
     <div class="my-4 space-y-4 max-w-4xl">

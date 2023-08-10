@@ -8,7 +8,7 @@ interface SalonsClientRepositoryContract
 {
     public function __construct(SalonsClientServiceContract $salonsClientServiceContract);
 
-    public function getRandomSalons(int $amount): array|null;
+    public function getRandomSalons(int $amount): array|bool;
 
-    public function getAllSalons(): array|null;
+    public function getAllSalons(): array|bool;
 }
