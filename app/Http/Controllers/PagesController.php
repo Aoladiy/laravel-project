@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Contracts\Repositories\ArticlesRepositoryContract;
 use App\Contracts\Repositories\BannersRepositoryContract;
 use App\Contracts\Repositories\CarsRepositoryContract;
+use App\Contracts\Repositories\SalonsClientRepositoryContract;
 use App\Models\Article;
 use App\Models\Banner;
 use App\Models\Car;
 use App\Models\CarCarcase;
+use App\Repositories\SalonsClientRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -102,5 +104,11 @@ class PagesController extends Controller
     {
         $article = $articlesRepositoryContract->findBySlug($slug);
         return view('pages.article', ['article' => $article]);
+    }
+
+    public function salons(SalonsClientRepositoryContract $salonsClientRepositoryContract): View
+    {
+        $salons = $salonsClientRepositoryContract->getAllSalons();
+        return view('pages.salons', ['salons' => $salons]);
     }
 }

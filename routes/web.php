@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\ModelController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\PagesController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,7 @@ Route::get('/contacts', [PagesController::class, 'contacts'])->name('contacts');
 Route::get('/sale', [PagesController::class, 'sale'])->name('sale');
 Route::get('/finance', [PagesController::class, 'finance'])->name('finance');
 Route::get('/clients', [PagesController::class, 'clients'])->name('clients');
+Route::get('/salons', [PagesController::class, 'salons'])->name('salons');
 
 Route::get('/articles', [PagesController::class, 'articles'])->name('articles');
 Route::get('/articles/{slug}', [PagesController::class, 'article'])->name('article');
