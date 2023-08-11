@@ -2,6 +2,12 @@
     page-title="{{ $product->name }}"
     title="{{ $product->name }}"
 >
+    <x-slot:breadcrumbsName>
+        product
+    </x-slot:breadcrumbsName>
+    <x-slot:breadcrumbsParameter>
+        {{$product->name}}
+    </x-slot:breadcrumbsParameter>
     @push('scripts')
         <script>
             $(function () {

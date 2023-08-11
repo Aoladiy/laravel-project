@@ -2,6 +2,9 @@
     page-title="Для клиентов"
     title="Для клиентов"
 >
+    <x-slot:breadcrumbsName>
+        clients
+    </x-slot:breadcrumbsName>
     <p>Средняя цена моделей:</p>
     @dump($avgPrice)
     <p>Средняя цена моделей на которые действует скидка:</p>
