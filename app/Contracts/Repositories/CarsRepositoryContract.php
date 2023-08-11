@@ -19,6 +19,7 @@ interface CarsRepositoryContract extends FlushCacheRepositoryContract
         array            $relations = [],
     ): LengthAwarePaginator;
 
+    public function getAmountOfCars(): int;
 
     public function getCatalog(CatalogFilterDTO $catalogFilterDTO, array $fields): Collection;
 

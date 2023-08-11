@@ -16,6 +16,14 @@ interface ArticlesRepositoryContract extends FlushCacheRepositoryContract
                                         int    $page = 1,
                                         string $pageName = 'page'): LengthAwarePaginator;
 
+    public function getAmountOfNews(): int;
+
+    public function getLongestArticle(): Article;
+
+    public function getShortestArticle(): Article;
+
+    public function getMostTaggedArticle(): Article;
+
     public function findBySlug($slug): Article;
 
     public function findAll(): Collection;

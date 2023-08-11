@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Contracts\Services\Article\ArticleCreateServiceContract;
 use App\Contracts\Services\Article\ArticleDeleteServiceContract;
 use App\Contracts\Services\Article\ArticleEditServiceContract;
+use App\Contracts\Services\Commands\StatisticsServiceContract;
 use App\Contracts\Services\Model\ModelCreateServiceContract;
 use App\Contracts\Services\Model\ModelDeleteServiceContract;
 use App\Contracts\Services\Model\ModelEditServiceContract;
@@ -13,6 +14,7 @@ use App\Contracts\Services\TagsSynchronizerServiceContract;
 use App\Services\Article\ArticleCreateService;
 use App\Services\Article\ArticleDeleteService;
 use App\Services\Article\ArticleEditService;
+use App\Services\Commands\StatisticsService;
 use App\Services\Model\ModelCreateService;
 use App\Services\Model\ModelDeleteService;
 use App\Services\Model\ModelEditService;
@@ -64,6 +66,8 @@ class AppServiceProvider extends ServiceProvider
                 'password' => \config('services.SalonsClientService.password'),
             ]);
         });
+        $this->app->singleton(StatisticsServiceContract::class,
+            StatisticsService::class);
     }
 
     /**

@@ -45,6 +45,11 @@ class CarsRepository implements CarsRepositoryContract
         );
     }
 
+    public function getAmountOfCars(): int
+    {
+        return $this->getModel()->count();
+    }
+
     public function getCatalog(CatalogFilterDTO $catalogFilterDTO,
                                array            $fields = ['*'],
     ): Collection

@@ -7,6 +7,7 @@ use App\Models\Article;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class ArticleRepository implements ArticlesRepositoryContract
 {
@@ -44,6 +45,34 @@ class ArticleRepository implements ArticlesRepositoryContract
             3600,
             fn() => $this->getArticle()->with('image', 'tags')->where('published_at', '<>', null)->latest('published_at')->paginate($perPage, $fields, $pageName, $page)
         );
+    }
+
+    public function getAmountOfNews(): int
+    {
+        return $this->getArticle()->count();
+    }
+
+    public function getLongestArticle(): Article
+    {
+        return $this->getArticle()
+            ->select('id', 'title')
+            ->selectRaw('LENGTH(body) as body_length')
+            ->orderByDesc('body_length')
+            ->first();
+    }
+
+    public function getShortestArticle(): Article
+    {
+        return $this->getArticle()
+            ->select('id', 'title')
+            ->selectRaw('LENGTH(body) as body_length')
+            ->orderBy('body_length')
+            ->first();
+    }
+
+    public function getMostTaggedArticle(): Article
+    {
+        return $this->getArticle()->withCount('tags')->orderByDesc('tags_count')->first();
     }
 
     public function findBySlug($slug): Article
