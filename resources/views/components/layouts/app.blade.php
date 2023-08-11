@@ -32,11 +32,11 @@
 
                 </div>
                 <div>
-                    @isset($userMenu)
-                        {{ $userMenu }}
+                    @auth()
+                        <x-panels.user-menu.user_authorized_menu />
                     @else
-                        <x-panels.user_not_authorized_menu />
-                    @endisset
+                        <x-panels.user-menu.user_not_authorized_menu />
+                    @endauth
                 </div>
             </div>
         </div>
