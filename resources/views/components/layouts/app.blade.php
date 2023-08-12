@@ -3,14 +3,9 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="/assets/css/form.min.css" rel="stylesheet">
-    <link href="/assets/css/tailwind.css" rel="stylesheet">
-    <link href="/assets/css/base.css" rel="stylesheet">
+    @vite('resources/css/app.css')
     @stack('styles')
-    <script src="/assets/js/vendor/jquery-3.6.0.min.js"></script>
-    <link href="/assets/js/vendor/slick.css" rel="stylesheet">
-    <script src="/assets/js/vendor/slick.min.js"></script>
-    <script src="/assets/js/script.js"></script>
+    @vite('resources/js/app.js')
     @stack('scripts')
     <title>{{ config('app.name') }} - {{ $pageTitle ?? 'Главная страница' }}</title>
     <link href="/assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
