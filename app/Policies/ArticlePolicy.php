@@ -21,7 +21,7 @@ class ArticlePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $this->rolesServiceContract->userHasRole($user->id, 'admin');
+        return $user->hasAdminRole();
     }
 
     /**
@@ -29,7 +29,7 @@ class ArticlePolicy
      */
     public function view(User $user, Article $article): bool
     {
-        return $this->rolesServiceContract->userHasRole($user->id, 'admin');
+        return $user->hasAdminRole();
     }
 
     /**
@@ -37,7 +37,7 @@ class ArticlePolicy
      */
     public function create(User $user): bool
     {
-        return $this->rolesServiceContract->userHasRole($user->id, 'admin');
+        return $user->hasAdminRole();
     }
 
     /**
@@ -45,7 +45,7 @@ class ArticlePolicy
      */
     public function update(User $user, Article $article): bool
     {
-        return $this->rolesServiceContract->userHasRole($user->id, 'admin');
+        return $user->hasAdminRole();
     }
 
     /**
@@ -53,6 +53,6 @@ class ArticlePolicy
      */
     public function delete(User $user, Article $article): bool
     {
-        return $this->rolesServiceContract->userHasRole($user->id, 'admin');
+        return $user->hasAdminRole();
     }
 }

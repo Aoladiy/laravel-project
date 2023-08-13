@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -18,14 +20,8 @@ return new class extends Migration
             $table->primary(['role_id', 'user_id']);
         });
 
-        DB::table('roles')->insert([
-            'name' => 'admin',
-        ]);
-
-        DB::table('role_user')->insert([
-            'role_id' => 1,
-            'user_id' => 1,
-        ]);
+        Role::factory()->create(['name' => 'admin']);
+        User::factory()->create(['name' => 'admin', 'email' => env('ADMIN_USER_EMAIL'), 'password' => env('ADMIN_USER_PASSWORD')])->roles()->saveMany(Role::where('name', 'admin')->get());
     }
 
     /**

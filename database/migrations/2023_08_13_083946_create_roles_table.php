@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -17,12 +19,6 @@ return new class extends Migration
             $table->string('name');
             $table->timestamps();
         });
-
-        DB::table('users')->insert([
-            'name' => 'admin',
-            'email' => env('ADMIN_USER_EMAIL', 'admin@example.com'),
-            'password' => bcrypt(env('ADMIN_USER_PASSWORD', 'password')),
-        ]);
     }
 
     /**
