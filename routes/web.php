@@ -41,7 +41,7 @@ Route::get('/products/{id}', [CatalogController::class, 'product'])->name('produ
 
 
 Route::prefix('/admin')
-    ->middleware(['auth', 'admin'])
+    ->middleware(['auth', 'role:admin'])
     ->group(function (Router $router) {
         $router->get('/', [AdminController::class, 'admin'])->name('admin');
 

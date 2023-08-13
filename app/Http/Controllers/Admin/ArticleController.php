@@ -10,6 +10,7 @@ use App\Contracts\Services\ImagesServiceContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ArticleRequest;
 use App\Http\Requests\TagsRequest;
+use App\Models\Article;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -17,12 +18,14 @@ class ArticleController extends Controller
 {
     public function articles(ArticlesRepositoryContract $articlesRepositoryContract): View
     {
+        $this->authorize('viewAny', Article::class);
         $articles = $articlesRepositoryContract->findAll();
         return view('pages.admin.admin_articles', ['articles' => $articles]);
     }
 
     public function articleCreate(): View
     {
+        $this->authorize('create', Article::class);
         return view('pages.admin.admin_article_create');
     }
 
@@ -31,6 +34,7 @@ class ArticleController extends Controller
                                          ArticleCreateServiceContract $articleCreateServiceContract
     ): RedirectResponse
     {
+        $this->authorize('create', Article::class);
         $data = $request->only(['slug', 'title', 'description', 'body', 'image', 'published_at', 'tags']);
         $tags = $tagsRequest->get('tags');
         try {
@@ -47,6 +51,7 @@ class ArticleController extends Controller
                                 ArticlesRepositoryContract $articlesRepositoryContract): View
     {
         $article = $articlesRepositoryContract->findBySlug($slug);
+        $this->authorize('update', [Article::class, $article]);
         return view('pages.admin.admin_article_edit', ['article' => $article]);
     }
 
@@ -57,8 +62,9 @@ class ArticleController extends Controller
                                        ArticleEditServiceContract $articleEditServiceContract,
     ): RedirectResponse
     {
-        $data = $request->only(['title', 'description', 'body', 'image', 'published_at', 'tags']);
         $id = $articlesRepositoryContract->findBySlug($slug)->id;
+        $this->authorize('update', [Article::class, $articlesRepositoryContract->findBySlug($slug)]);
+        $data = $request->only(['title', 'description', 'body', 'image', 'published_at', 'tags']);
         $tags = $tagsRequest->get('tags');
         try {
             $articleEditServiceContract->edit($data, $id, $tags);
@@ -69,9 +75,11 @@ class ArticleController extends Controller
     }
 
     public function articleDeleteRequest(string                       $slug,
-                                         ArticleDeleteServiceContract $articleDeleteServiceContract
+                                         ArticleDeleteServiceContract $articleDeleteServiceContract,
+                                         ArticlesRepositoryContract   $articlesRepositoryContract,
     ): RedirectResponse
     {
+        $this->authorize('delete', [Article::class, $articlesRepositoryContract->findBySlug($slug)]);
         try {
             $articleDeleteServiceContract->delete($slug);
             return back()->with('success_message', ['Запись с slug=' . $slug . ' успешно удалена']);

@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create(['name' => 'admin', 'email' => env('ADMIN_USER_EMAIL'), 'password' => env('ADMIN_USER_PASSWORD')])->roles()->saveMany(Role::where('name', 'admin')->get());
+//        User::factory()->create(['name' => 'admin', 'email' => env('ADMIN_USER_EMAIL'), 'password' => env('ADMIN_USER_PASSWORD')])->roles()->saveMany(Role::where('name', 'admin')->get());
         $roles = Role::where('name', '<>', 'admin')->get();
         foreach (User::factory(9)->create() as $user) {
             $user->roles()->saveMany($roles->random(rand(0, 3)));

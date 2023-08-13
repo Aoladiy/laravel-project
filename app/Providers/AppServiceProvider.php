@@ -22,6 +22,7 @@ use App\Services\Model\ModelEditService;
 use App\Services\RolesService;
 use App\Services\SalonsClientService;
 use App\Services\TagsSynchronizerService;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -79,5 +80,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Blade::if('admin', function () {
+            if ($id = request()->user()->id ?? false) {
+                return app(RolesServiceContract::class)->userHasRole($id, 'admin');
+            } else {
+                return false;
+            }
+        }
+        );
     }
 }
