@@ -1,4 +1,4 @@
-<x-layouts.app page-title="{{ $pageTitle ?? null }}">
+<x-layouts.app page-title="{!! $pageTitle ?? null !!}">
     <x-slot:navigationMenu>
         <x-category_menu />
     </x-slot:navigationMenu>

@@ -38,6 +38,7 @@ class SalonsClientService implements SalonsClientServiceContract
     {
         try {
             return Http::withBasicAuth($login ?? $this->login, $password ?? $this->password)
+                ->withOptions(["verify"=>false]) // видимо у меня на локальном компе проблемы с проверкой ssl сертификата, ибо без этого параметра не работает
                 ->baseUrl($baseUrl ?? $this->baseUrl)
                 ->get($url, $parameters);
         } catch (RequestException $e) {

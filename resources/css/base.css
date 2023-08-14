@@ -1,15 +1,15 @@
 @font-face {
     font-family: 'Roboto';
     font-weight: 400;
-    src: url("../fonts/Roboto-Regular.woff") format("woff"),
-    url("../fonts/Roboto-Regular.woff2") format("woff2");
+    src: url("../../public/assets/fonts/Roboto-Regular.woff") format("woff"),
+    url("../../public/assets/fonts/Roboto-Regular.woff2") format("woff2");
 }
 
 @font-face {
     font-family: 'Roboto';
     font-weight: 700;
-    src: url("../fonts/Roboto-Medium.woff") format("woff"),
-    url("../fonts/Roboto-Medium.woff2") format("woff2");
+    src: url("../../public/assets/fonts/Roboto-Medium.woff") format("woff"),
+    url("../../public/assets/fonts/Roboto-Medium.woff2") format("woff2");
 }
 
 html, body {
@@ -17,7 +17,7 @@ html, body {
 }
 
 .wrapper {
-    background: url("../images/main_bg.png") 0 0 repeat;
+    background: url("../../public/assets/images/main_bg.png") 0 0 repeat;
 }
 
 .dropdown-navigation-submenu {
