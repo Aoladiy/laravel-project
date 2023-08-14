@@ -111,4 +111,9 @@ class PagesController extends Controller
         $salons = $salonsClientRepositoryContract->getAllSalons();
         return view('pages.salons', ['salons' => $salons]);
     }
+
+    public function account(): View
+    {
+        return view('pages.account');
+    }
 }
