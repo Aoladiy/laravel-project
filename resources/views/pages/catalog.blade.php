@@ -2,6 +2,18 @@
     page-title="Каталог"
     title="Каталог"
 >
+    @isset($currentCategory->name)
+        <x-slot:breadcrumbsName>
+            category
+        </x-slot:breadcrumbsName>
+        <x-slot:breadcrumbsParameter>
+            {{$currentCategory->name}}
+        </x-slot:breadcrumbsParameter>
+    @else
+        <x-slot:breadcrumbsName>
+            catalog
+        </x-slot:breadcrumbsName>
+    @endisset
     <form method="get" class="my-4 border rounded p-4 space-y-4">
         <div class="block sm:flex space-y-2 sm:space-y-0 sm:space-x-4 w-full">
             <div class="flex space-x-2 items-center">

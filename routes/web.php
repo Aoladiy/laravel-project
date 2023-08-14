@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\ModelController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\PagesController;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,27 +27,37 @@ Route::get('/contacts', [PagesController::class, 'contacts'])->name('contacts');
 Route::get('/sale', [PagesController::class, 'sale'])->name('sale');
 Route::get('/finance', [PagesController::class, 'finance'])->name('finance');
 Route::get('/clients', [PagesController::class, 'clients'])->name('clients');
+Route::get('/salons', [PagesController::class, 'salons'])->name('salons');
 
 Route::get('/articles', [PagesController::class, 'articles'])->name('articles');
 Route::get('/articles/{slug}', [PagesController::class, 'article'])->name('article');
+
+
+Route::middleware(['auth'])->get('/account', [PagesController::class, 'account'])->name('account');
 
 
 Route::get('/catalog/{slug?}', [CatalogController::class, 'catalog'])->name('catalog');
 Route::get('/products/{id}', [CatalogController::class, 'product'])->name('product');
 
 
-Route::get('/admin', [AdminController::class, 'admin'])->name('admin');
+Route::prefix('/admin')
+    ->middleware(['auth', 'role:admin'])
+    ->group(function (Router $router) {
+        $router->get('/', [AdminController::class, 'admin'])->name('admin');
 
-Route::get('/admin/articles', [ArticleController::class, 'articles'])->name('adminArticles');
-Route::get('/admin/articles/create', [ArticleController::class, 'articleCreate'])->name('articleCreate');
-Route::post('/admin/articles/create', [ArticleController::class, 'articleCreateRequest'])->name('articleCreateRequest');
-Route::get('/admin/articles/edit/{slug}', [ArticleController::class, 'articleEdit'])->name('articleEdit');
-Route::patch('/admin/articles/edit/{slug}', [ArticleController::class, 'articleEditRequest'])->name('articleEditRequest');
-Route::delete('/admin/articles/delete/{slug}', [ArticleController::class, 'articleDeleteRequest'])->name('articleDeleteRequest');
+        $router->get('articles', [ArticleController::class, 'articles'])->name('adminArticles');
+        $router->get('articles/create', [ArticleController::class, 'articleCreate'])->name('articleCreate');
+        $router->post('articles/create', [ArticleController::class, 'articleCreateRequest'])->name('articleCreateRequest');
+        $router->get('articles/edit/{slug}', [ArticleController::class, 'articleEdit'])->name('articleEdit');
+        $router->patch('articles/edit/{slug}', [ArticleController::class, 'articleEditRequest'])->name('articleEditRequest');
+        $router->delete('articles/delete/{slug}', [ArticleController::class, 'articleDeleteRequest'])->name('articleDeleteRequest');
 
-Route::get('/admin/models', [ModelController::class, 'models'])->name('adminModels');
-Route::get('/admin/models/create', [ModelController::class, 'modelCreate'])->name('modelCreate');
-Route::post('/admin/models/create', [ModelController::class, 'modelCreateRequest'])->name('modelCreateRequest');
-Route::get('/admin/models/edit/{id}', [ModelController::class, 'modelEdit'])->name('modelEdit');
-Route::patch('/admin/models/edit/{id}', [ModelController::class, 'modelEditRequest'])->name('modelEditRequest');
-Route::delete('/admin/models/delete/{id}', [ModelController::class, 'modelDeleteRequest'])->name('modelDeleteRequest');
+        $router->get('models', [ModelController::class, 'models'])->name('adminModels');
+        $router->get('models/create', [ModelController::class, 'modelCreate'])->name('modelCreate');
+        $router->post('models/create', [ModelController::class, 'modelCreateRequest'])->name('modelCreateRequest');
+        $router->get('models/edit/{id}', [ModelController::class, 'modelEdit'])->name('modelEdit');
+        $router->patch('models/edit/{id}', [ModelController::class, 'modelEditRequest'])->name('modelEditRequest');
+        $router->delete('models/delete/{id}', [ModelController::class, 'modelDeleteRequest'])->name('modelDeleteRequest');
+    });
+
+require __DIR__ . '/auth.php';

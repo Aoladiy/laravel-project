@@ -6,6 +6,7 @@ use App\Contracts\Repositories\CarsRepositoryContract;
 use App\Contracts\Services\ImagesServiceContract;
 use App\Contracts\Services\Model\ModelCreateServiceContract;
 use Illuminate\Support\Facades\DB;
+use \App\Models\Car;
 
 class ModelCreateService implements ModelCreateServiceContract
 {
@@ -14,15 +15,16 @@ class ModelCreateService implements ModelCreateServiceContract
     {
     }
 
-    public function create(array $data)
+    public function create(array $data): Car
     {
-        DB::transaction(function () use ($data) {
+        return DB::transaction(function () use ($data) {
             if (!empty($data['image'])) {
                 $image = $this->imagesServiceContract->createImage($data['image']);
                 $data['image_id'] = $image->id;
             }
             $model = $this->carsRepositoryContract->create($data);
-            $model->categories()->sync($data['category_ids']);
+            $model->categories()->sync($data['category_ids'] ?? []);
+            return $model;
         });
     }
 }

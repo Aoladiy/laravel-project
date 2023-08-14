@@ -3,6 +3,9 @@
     page-title="Все новости"
     title="Все новости"
 >
+    <x-slot:breadcrumbsName>
+        articles
+    </x-slot:breadcrumbsName>
     <div class="space-y-4">
         @foreach($articles as $article)
             <x-panels.articles.article_item_for_all_articles_page :article="$article"/>

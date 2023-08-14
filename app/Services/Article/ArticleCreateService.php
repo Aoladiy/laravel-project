@@ -6,7 +6,9 @@ use App\Contracts\Repositories\ArticlesRepositoryContract;
 use App\Contracts\Services\Article\ArticleCreateServiceContract;
 use App\Contracts\Services\ImagesServiceContract;
 use App\Contracts\Services\TagsSynchronizerServiceContract;
+use App\Events\ArticleCreatedEvent;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 
 class ArticleCreateService implements ArticleCreateServiceContract
 {
@@ -30,6 +32,7 @@ class ArticleCreateService implements ArticleCreateServiceContract
             }
             $article = $this->articlesRepositoryContract->create($data);
             $this->tagsSynchronizerServiceContract->sync($article, $tags);
+            Event::dispatch(new ArticleCreatedEvent($article));
         });
     }
 }

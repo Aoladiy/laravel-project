@@ -1,8 +1,5 @@
 <x-layouts.app
     page-title="{{ $pageTitle ?? '' }}">
-    <x-slot:userMenu>
-        <x-panels.user_authorized_menu />
-    </x-slot:userMenu>
     <x-slot:navigationMenu>
         <x-panels.admin_menu />
     </x-slot:navigationMenu>

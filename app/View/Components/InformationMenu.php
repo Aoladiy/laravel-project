@@ -36,7 +36,6 @@ class InformationMenu extends Component
      */
     public function __construct(public readonly string $template)
     {
-        //
     }
 
     /**
