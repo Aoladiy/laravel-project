@@ -10,6 +10,7 @@ use App\Contracts\Services\Model\ModelDeleteServiceContract;
 use App\Contracts\Services\Model\ModelEditServiceContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ModelRequest;
+use App\Models\Car;
 use App\Services\Model\ModelEditService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -18,12 +19,14 @@ class ModelController extends Controller
 {
     public function models(CarsRepositoryContract $carsRepositoryContract): View
     {
+        $this->authorize('viewAny', Car::class);
         $models = $carsRepositoryContract->findAll();
         return view('pages.admin.admin_models', ['models' => $models]);
     }
 
     public function modelCreate(): View
     {
+        $this->authorize('create', Car::class);
         return view('pages.admin.admin_model_create');
     }
 
@@ -31,6 +34,7 @@ class ModelController extends Controller
                                        ModelCreateServiceContract $modelCreateServiceContract,
     ): RedirectResponse
     {
+        $this->authorize('create', Car::class);
         $data = $request->only([
             'name',
             'body',
@@ -59,14 +63,17 @@ class ModelController extends Controller
                               CarsRepositoryContract $carsRepositoryContract): View
     {
         $model = $carsRepositoryContract->findById($id);
+        $this->authorize('update', [Car::class, $model]);
         return view('pages.admin.admin_model_edit', ['model' => $model]);
     }
 
     public function modelEditRequest(ModelRequest             $request,
                                      int                      $id,
                                      ModelEditServiceContract $modelEditServiceContract,
+                                     CarsRepositoryContract   $carsRepositoryContract,
     ): RedirectResponse
     {
+        $this->authorize('update', [Car::class, $carsRepositoryContract->findById($id)]);
         $data = $request->only([
             'name',
             'body',
@@ -93,8 +100,10 @@ class ModelController extends Controller
 
     public function modelDeleteRequest(int                        $id,
                                        ModelDeleteServiceContract $modelDeleteServiceContract,
+                                       CarsRepositoryContract     $carsRepositoryContract,
     ): RedirectResponse
     {
+        $this->authorize('delete', [Car::class, $carsRepositoryContract->findById($id)]);
         try {
             $modelDeleteServiceContract->delete($id);
             return back()->with('success_message', ['Запись с id=' . $id . ' успешно удалена']);

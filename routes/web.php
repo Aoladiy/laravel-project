@@ -33,7 +33,7 @@ Route::get('/articles', [PagesController::class, 'articles'])->name('articles');
 Route::get('/articles/{slug}', [PagesController::class, 'article'])->name('article');
 
 
-Route::middleware('auth')->get('/account', [PagesController::class, 'account'])->name('account');
+Route::middleware(['auth'])->get('/account', [PagesController::class, 'account'])->name('account');
 
 
 Route::get('/catalog/{slug?}', [CatalogController::class, 'catalog'])->name('catalog');
@@ -41,7 +41,7 @@ Route::get('/products/{id}', [CatalogController::class, 'product'])->name('produ
 
 
 Route::prefix('/admin')
-    ->middleware('auth')
+    ->middleware(['auth', 'role:admin'])
     ->group(function (Router $router) {
         $router->get('/', [AdminController::class, 'admin'])->name('admin');
 

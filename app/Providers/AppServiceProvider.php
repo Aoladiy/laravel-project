@@ -9,6 +9,7 @@ use App\Contracts\Services\Commands\StatisticsServiceContract;
 use App\Contracts\Services\Model\ModelCreateServiceContract;
 use App\Contracts\Services\Model\ModelDeleteServiceContract;
 use App\Contracts\Services\Model\ModelEditServiceContract;
+use App\Contracts\Services\RolesServiceContract;
 use App\Contracts\Services\SalonsClientServiceContract;
 use App\Contracts\Services\TagsSynchronizerServiceContract;
 use App\Services\Article\ArticleCreateService;
@@ -18,8 +19,10 @@ use App\Services\Commands\StatisticsService;
 use App\Services\Model\ModelCreateService;
 use App\Services\Model\ModelDeleteService;
 use App\Services\Model\ModelEditService;
+use App\Services\RolesService;
 use App\Services\SalonsClientService;
 use App\Services\TagsSynchronizerService;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -68,6 +71,8 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->singleton(StatisticsServiceContract::class,
             StatisticsService::class);
+        $this->app->singleton(RolesServiceContract::class,
+            RolesService::class);
     }
 
     /**
@@ -75,5 +80,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Blade::if('admin', function () {
+            if ($id = request()->user()->id ?? false) {
+                return app(RolesServiceContract::class)->userHasRole($id, 'admin');
+            } else {
+                return false;
+            }
+        }
+        );
     }
 }

@@ -10,6 +10,7 @@ use App\Contracts\Repositories\CarEnginesRepositoryContract;
 use App\Contracts\Repositories\CarsRepositoryContract;
 use App\Contracts\Repositories\CategoriesRepositoryContract;
 use App\Contracts\Repositories\ImagesRepositoryContract;
+use App\Contracts\Repositories\RolesRepositoryContract;
 use App\Contracts\Repositories\SalonsClientRepositoryContract;
 use App\Contracts\Repositories\TagsRepositoryContract;
 use App\Repositories\ArticleRepository;
@@ -20,6 +21,7 @@ use App\Repositories\CarEnginesRepository;
 use App\Repositories\CarsRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ImagesRepository;
+use App\Repositories\RolesRepository;
 use App\Repositories\SalonsClientRepository;
 use App\Repositories\TagsRepository;
 use Illuminate\Support\ServiceProvider;
@@ -51,6 +53,8 @@ class RepositoriesServiceProvider extends ServiceProvider
             BannerRepository::class);
         $this->app->singleton(SalonsClientRepositoryContract::class,
             SalonsClientRepository::class);
+        $this->app->singleton(RolesRepositoryContract::class,
+            RolesRepository::class);
     }
 
     /**
