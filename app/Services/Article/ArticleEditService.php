@@ -6,7 +6,9 @@ use App\Contracts\Repositories\ArticlesRepositoryContract;
 use App\Contracts\Services\Article\ArticleEditServiceContract;
 use App\Contracts\Services\ImagesServiceContract;
 use App\Contracts\Services\TagsSynchronizerServiceContract;
+use App\Events\ArticleUpdatedEvent;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 
 class ArticleEditService implements ArticleEditServiceContract
 {
@@ -31,6 +33,7 @@ class ArticleEditService implements ArticleEditServiceContract
             }
             $article = $this->articlesRepositoryContract->update($id, $data);
             $this->tagsSynchronizerServiceContract->sync($article, $tags);
+            Event::dispatch(new ArticleUpdatedEvent($article));
         });
     }
 }

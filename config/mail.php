@@ -122,4 +122,9 @@ return [
         ],
     ],
 
+    'to' => [
+        'address' => env('MAIL_TO_ADDRESS'),
+        'name' => env('MAIL_FROM_NAME', 'Example'),
+    ]
+
 ];
