@@ -6,7 +6,9 @@ use App\Contracts\Repositories\ArticlesRepositoryContract;
 use App\Contracts\Services\Article\ArticleDeleteServiceContract;
 use App\Contracts\Services\ImagesServiceContract;
 use App\Contracts\Services\TagsSynchronizerServiceContract;
+use App\Events\ArticleDeletedEvent;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 
 class ArticleDeleteService implements ArticleDeleteServiceContract
 {
@@ -26,6 +28,7 @@ class ArticleDeleteService implements ArticleDeleteServiceContract
             $id = $this->articlesRepositoryContract->findBySlug($slug)->id;
             $this->tagsSynchronizerServiceContract->sync($article, []);
             $this->articlesRepositoryContract->delete($id);
+            Event::dispatch(new ArticleDeletedEvent($article));
         });
     }
 }
